@@ -1,11 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import TriangleChecker from "./components/TriangleChecker.vue";
+import Chat from "@/components/Chat.vue";
 </script>
 
 <template>
-  <TriangleChecker/>
+<Chat></Chat>
 </template>
 
 <style scoped>
