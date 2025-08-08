@@ -1,5 +1,6 @@
 <script setup>
 import ChatMessage from "@/components/ChatMessage.vue";
+import ChatMember from "@/components/ChatMember.vue";
 import {ref} from "vue";
 
 const array = ref(["message1", "message2", "message3"]);
@@ -11,17 +12,26 @@ const array = ref(["message1", "message2", "message3"]);
     <header>
       <div class="user-icon">
         <img src="../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
-        <div class="user-info">
-          <div class="user-nickname">John Doe</div>
-          <div class="user-status">Online</div>
+        <div class="user-nickname">John Doe</div>
+        <div class="user-status">
+          <select>
+            <option>Online</option>
+            <option>Away</option>
+            <option>Busy</option>
+            <option>Offline</option>
+          </select>
         </div>
       </div>
       <div class="user-btns">
-        <button class="button-user-icon">загрузка аватарки</button>
         <button class="button-exit">выход</button>
       </div>
     </header>
-    <div class="user-list">Список пользователей</div>
+    <div class="user-list">
+      <div class="user-list-heading">Список контактов</div>
+      <ChatMember nickname="user1" status="online"></ChatMember>
+      <ChatMember nickname="user2" status="away"></ChatMember>
+      <ChatMember nickname="user3" status="offline"></ChatMember>
+    </div>
     <div class="chat-window">Окно чата</div>
   </div>
 
@@ -46,13 +56,13 @@ const array = ref(["message1", "message2", "message3"]);
 
 .user-icon {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
 .user-icon img {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 }
 
 .user-info {

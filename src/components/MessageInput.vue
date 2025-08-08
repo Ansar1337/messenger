@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<div>MessageInput</div>
+<!--<div>MessageInput</div>-->
 </template>
 
 <style scoped>
