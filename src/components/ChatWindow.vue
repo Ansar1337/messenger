@@ -11,14 +11,15 @@ const array = ref(["message1", "message2", "message3"]);
     <header>
       <div class="user-icon">
         <img src="../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
+        <div class="user-info">
+          <div class="user-nickname">John Doe</div>
+          <div class="user-status">Online</div>
+        </div>
+      </div>
+      <div class="user-btns">
         <button class="button-user-icon">загрузка аватарки</button>
+        <button class="button-exit">выход</button>
       </div>
-      <div class="user-info">
-        <div class="user-nickname">John Doe</div>
-        <div class="user-status">Online</div>
-      </div>
-      <button class="button-exit">Выход</button>
-
     </header>
     <div class="user-list">Список пользователей</div>
     <div class="chat-window">Окно чата</div>
@@ -36,7 +37,7 @@ const array = ref(["message1", "message2", "message3"]);
 .container {
   display: grid;
   grid-template-columns: 250px 1fr;
-  grid-template-rows: 40px 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
   "header header"
   "user-list chat";
@@ -46,11 +47,24 @@ const array = ref(["message1", "message2", "message3"]);
 .user-icon {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .user-icon img {
   width: 50px;
   height: 50px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .user-list {
@@ -65,11 +79,6 @@ header {
   align-items: center;
   padding: 0 20px;
   background-color: #14374d;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
 }
 
 .user-nickname {
