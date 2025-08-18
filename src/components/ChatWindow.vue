@@ -1,42 +1,66 @@
 <script setup>
+import {ref} from "vue";
 import ChatMessage from "@/components/ChatMessage.vue";
+
+const message = ref("");
+
+function sendMessage() {
+  if (message.value.trim() !== "") {
+    message.value = "";
+  }
+}
 </script>
 
 <template>
-  <div class="container">
-    <header>
-      <div class="user-icon">
-        <img src="../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
-        <div class="user-nickname">John Doe</div>
-        <div class="user-status">
-          <select>
-            <option>Online</option>
-            <option>Away</option>
-            <option>Busy</option>
-            <option>Offline</option>
-          </select>
-        </div>
+  <div class="chat-window-container">
+    <ChatMessage></ChatMessage>
+    <div class="input-field-container">
+
+      <div class="emoji-btn">
+        <button @click="">Emoji</button>
       </div>
-      <div class="user-btns">
-        <button class="button-exit">выход</button>
+      <div class="send-btn">
+        <button @click="sendMessage">Send</button>
       </div>
-    </header>
-    <div class="user-list">
-      <div class="user-list-heading">Список контактов</div>
-      <ChatMember nickname="user1" status="online"></ChatMember>
-      <ChatMember nickname="user2" status="away"></ChatMember>
-      <ChatMember nickname="user3" status="offline"></ChatMember>
+      <div class="input-field">
+        <input
+            placeholder="Введите сообщение..."
+
+        />
+      </div>
     </div>
-    <div class="chat-window">Окно чата</div>
   </div>
 
-
-  <!--  <div>ChatWindow</div>-->
-  <!--  <button @click="array.push('new message')">Button</button>-->
-  <!--  <button @click="array.pop()">Remove</button>-->
-  <!--  <ChatMessage v-for="item in array" sender-icon="" sender-nickname="Ansar" message-date="today">{{item}}</ChatMessage>-->
 </template>
 
 <style scoped>
+.chat-window-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+  "input emoji send";
+  height: 100vh;
+}
 
+.input-field {
+  display: flex;
+  align-items: center;
+  grid-area: input;
+}
+
+.emoji-btn {
+  display: flex;
+  margin-left: 8px;
+}
+
+.send-btn {
+  display: flex;
+}
+
+
+.chat-window-container {
+  height: 100%;
+  width: auto;
+}
 </style>
