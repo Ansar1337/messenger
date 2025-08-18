@@ -1,10 +1,5 @@
 <script setup>
 import ChatMessage from "@/components/ChatMessage.vue";
-import ChatMember from "@/components/ChatMember.vue";
-import {ref} from "vue";
-
-const array = ref(["message1", "message2", "message3"]);
-
 </script>
 
 <template>
