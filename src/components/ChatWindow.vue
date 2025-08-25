@@ -2,11 +2,16 @@
 import {ref} from "vue";
 import ChatMessage from "@/components/ChatMessage.vue";
 
-const message = ref("");
+const message = ref("Введите сообщение...");
 
 function sendMessage() {
   if (message.value.trim() !== "") {
+    console.log("Отправлено:", message.value);
     message.value = "";
+  }
+
+  function openEmojiPanel() {
+    console.log("Открыть эмодзи");
   }
 }
 </script>
@@ -18,14 +23,10 @@ function sendMessage() {
     </div>
     <div class="chat-window-utils">
       <div class="input-field">
-        <textarea>Введите сообщение</textarea>
+        <textarea placeholder="" v-model="message"></textarea>
       </div>
-      <div class="emoji-btn">
-        <button @click="">Emoji</button>
-      </div>
-      <div class="send-btn">
-        <button @click="sendMessage">Send</button>
-      </div>
+      <button class="emoji-btn" @click="openEmojiPanel">😀</button>
+      <button class="send-btn" @click="sendMessage">➤</button>
     </div>
   </div>
 
@@ -39,15 +40,28 @@ function sendMessage() {
   align-items: stretch;
   justify-content: center;
   flex-direction: column;
+  height: 100%;
+  background: #eae0e0;
+  border-left: 1px solid #ccc;
 }
 
 .bubble-messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow-y: auto;
   flex-grow: 1;
+  padding: 8px 12px;
 }
 
 .chat-window-utils {
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #eae0e0;
+  border-top: 1px solid #ccc;
 }
 
 .input-field {
@@ -57,16 +71,25 @@ function sendMessage() {
 }
 
 .input-field textarea {
-  flex-grow: 1;
+  width: 100%;
+  min-height: 40px;
+  max-height: 120px;
+  resize: none;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
-.emoji-btn {
-  display: flex;
-  cursor: pointer;
-}
-
+.emoji-btn,
 .send-btn {
-  display: flex;
+  padding: 8px 12px;
+  border: none;
+  background: #2c3e50;
+  color: white;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -75,9 +98,4 @@ function sendMessage() {
   background-color: #152a4c;
 }
 
-
-.chat-window-container {
-  height: 100%;
-  width: auto;
-}
 </style>
