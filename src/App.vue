@@ -1,9 +1,9 @@
 <script setup>
-import Chat from "@/components/Chat.vue";
+import Chat from "@/components/module_chat/Chat.vue";
 </script>
 
 <template>
-<Chat></Chat>
+  <router-view></router-view>
 </template>
 
 <style scoped>

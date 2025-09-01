@@ -4,7 +4,7 @@ defineProps(["icon","nickname","status"]);
 
 <template>
   <div class="chat-member-info">
-    <div class="icon"><img src="../../public/images/free-user-icon-3296-thumb.png" alt="chat-member-icon">
+    <div class="icon"><img src="../../../public/images/free-user-icon-3296-thumb.png" alt="chat-member-icon">
     </div>
     <div class="nickname">{{nickname}}</div>
     <div :class="`status-${status}`"></div>

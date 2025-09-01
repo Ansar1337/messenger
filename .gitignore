@@ -29,3 +29,5 @@ coverage
 
 *.tsbuildinfo
 /src/practice/
+/lessons/
+/src/components/excluded/

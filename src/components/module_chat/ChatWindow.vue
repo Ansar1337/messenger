@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from "vue";
-import ChatMessage from "@/components/ChatMessage.vue";
+import ChatMessage from "@/components/module_chat/ChatMessage.vue";
 
 const message = ref("Введите сообщение...");
 

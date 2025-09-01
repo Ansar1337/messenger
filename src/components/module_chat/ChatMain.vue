@@ -1,6 +1,6 @@
 <script setup>
-import ChatWindow from "@/components/ChatWindow.vue";
-import ChatMember from "@/components/ChatMember.vue";
+import ChatWindow from "@/components/module_chat/ChatWindow.vue";
+import ChatMember from "@/components/module_chat/ChatMember.vue";
 import {ref} from "vue";
 
 const array = ref(["message1", "message2", "message3"]);
@@ -11,7 +11,7 @@ const array = ref(["message1", "message2", "message3"]);
   <div class="container">
     <header>
       <div class="user-icon">
-        <img src="../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
+        <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
         <div class="user-nickname">John Doe</div>
         <div class="user-status">
           <select>
