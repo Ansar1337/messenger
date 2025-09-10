@@ -1,9 +1,19 @@
 <script setup>
 import ChatWindow from "@/components/module_chat/ChatWindow.vue";
 import ChatMember from "@/components/module_chat/ChatMember.vue";
+import {useUserStore} from '@/store/user';
+import {useRouter} from "vue-router";
 import {ref} from "vue";
 
+const user = useUserStore();
+user.name = "Ansar";
 const array = ref(["message1", "message2", "message3"]);
+
+const router = useRouter();
+
+function logOut() {
+  router.replace({name: 'Registration'});
+}
 
 </script>
 
@@ -12,7 +22,7 @@ const array = ref(["message1", "message2", "message3"]);
     <header>
       <div class="user-icon">
         <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
-        <div class="user-nickname">John Doe</div>
+        <div class="user-nickname">{{ user.name }}</div>
         <div class="user-status">
           <select>
             <option>Online</option>
@@ -23,7 +33,7 @@ const array = ref(["message1", "message2", "message3"]);
         </div>
       </div>
       <div class="user-btns">
-        <button class="button-exit">выход</button>
+        <button type="button" @click="logOut" class="button-exit">Exit</button>
       </div>
     </header>
     <div class="user-list">

@@ -1,6 +1,10 @@
 <script setup>
 import {ref, reactive} from "vue";
-import FieldSet from "@/components/module_reg_auth/FieldSet.vue";
+import WrappedInput from "@/components/module_reg_auth/WrappedInput.vue";
+import {useRouter} from "vue-router";
+import Chat from "@/components/module_chat/Chat.vue";
+
+const router = useRouter();
 
 const form = reactive({
   username: "",
@@ -28,10 +32,12 @@ function submit(e) {
       error.value = "Passwords are not matching";
     } else if (form.password === form.confirmPassword) {
       alert(`Registration successful! User: ${form.username} `);
+      router.replace({name: 'Chat'});
     }
   } else {
     if (form.username === "Ansar" && form.password === "1234") {
       alert("Success!");
+      router.replace({name: 'Chat'});
     } else {
       error.value = "Incorrect username or password";
     }
@@ -50,37 +56,40 @@ function submit(e) {
 
   <!--  Form-->
   <form @submit="submit" class="auth-form">
-    <FieldSet
+    <WrappedInput
+        field-caption="Username"
         v-model="form.username"
         type="text"
         placeholder="Логин"
         name="login"
         required="true"
     />
-    <input
+    <WrappedInput
+        field-caption="Password"
         v-model="form.password"
         type="password"
         placeholder="Пароль"
         name="passwd"
-        required
+        required="true"
     />
-    <input
+    <WrappedInput
+        field-caption="Repeat Password"
         v-if="isRegister"
         v-model="form.confirmPassword"
         type="password"
         placeholder="Подтвердите пароль"
         name="passwd2"
-        required
+        required="true"
     />
 
     <!--    Error message-->
     <p v-if="error" style="color:red">{{ error }}</p>
 
     <!--    Buttons-->
-    <button>
+    <button class="auth-button">
       {{ isRegister ? "Создать" : "Войти" }}
     </button>
-    <button type="button" @click="toggleMode">
+    <button type="button" @click="toggleMode" class="auth-button">
       {{ isRegister ? "У меня уже есть аккаунт" : "Создать новый аккаунт" }}
     </button>
   </form>
@@ -101,5 +110,9 @@ function submit(e) {
   align-items: center;
   gap: 5px;
   margin-top: 50px;
+}
+
+.auth-button {
+  border-radius: 15px;
 }
 </style>
