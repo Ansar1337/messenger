@@ -5,15 +5,11 @@ import {useUserStore} from '@/store/user';
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 
-const user = useUserStore();
-user.name = "Ansar";
+const userStore = useUserStore();
+userStore.name = "Ansar";
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
-
-function logOut() {
-  router.replace({name: 'Registration'});
-}
 
 </script>
 
@@ -22,7 +18,7 @@ function logOut() {
     <header>
       <div class="user-icon">
         <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
-        <div class="user-nickname">{{ user.name }}</div>
+        <div class="user-nickname">{{ userStore.name }}</div>
         <div class="user-status">
           <select>
             <option>Online</option>
@@ -33,7 +29,7 @@ function logOut() {
         </div>
       </div>
       <div class="user-btns">
-        <button type="button" @click="logOut" class="button-exit">Exit</button>
+        <button type="button" @click="userStore.logOut()" class="button-exit">Exit</button>
       </div>
     </header>
     <div class="user-list">

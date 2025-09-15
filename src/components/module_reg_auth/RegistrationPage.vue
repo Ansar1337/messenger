@@ -3,8 +3,11 @@ import {ref, reactive} from "vue";
 import WrappedInput from "@/components/module_reg_auth/WrappedInput.vue";
 import {useRouter} from "vue-router";
 import Chat from "@/components/module_chat/Chat.vue";
+import {useUserStore} from "@/store/user.js";
 
 const router = useRouter();
+
+const userStore = useUserStore();
 
 const form = reactive({
   username: "",
@@ -31,13 +34,11 @@ function submit(e) {
     if (form.password !== form.confirmPassword) {
       error.value = "Passwords are not matching";
     } else if (form.password === form.confirmPassword) {
-      alert(`Registration successful! User: ${form.username} `);
-      router.replace({name: 'Chat'});
+      userStore.logIn();
     }
   } else {
     if (form.username === "Ansar" && form.password === "1234") {
-      alert("Success!");
-      router.replace({name: 'Chat'});
+      userStore.logIn();
     } else {
       error.value = "Incorrect username or password";
     }
