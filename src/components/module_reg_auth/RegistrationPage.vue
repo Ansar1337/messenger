@@ -4,6 +4,7 @@ import WrappedInput from "@/components/module_reg_auth/WrappedInput.vue";
 import {useRouter} from "vue-router";
 import Chat from "@/components/module_chat/Chat.vue";
 import {useUserStore} from "@/store/user.js";
+import {validateUser, registerUser} from "@/helpers/dataProvider.js";
 
 const router = useRouter();
 
@@ -30,17 +31,19 @@ function toggleMode() {
 function submit(e) {
   e.preventDefault();
   error.value = "";
-  if (isRegister.value) {
-    if (form.password !== form.confirmPassword) {
-      error.value = "Passwords are not matching";
-    } else if (form.password === form.confirmPassword) {
+  if (!isRegister.value) {
+    const validUser = validateUser(form.username, form.password);
+    if (validUser.status === "error") {
+      error.value = validUser.data;
+    } else {
       userStore.logIn();
     }
   } else {
-    if (form.username === "Ansar" && form.password === "1234") {
-      userStore.logIn();
+    const registeredUser = registerUser(form.username, form.password);
+    if (registeredUser.status === "error") {
+      error.value = registeredUser.data;
     } else {
-      error.value = "Incorrect username or password";
+      userStore.logIn();
     }
   }
 }

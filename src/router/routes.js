@@ -1,11 +1,8 @@
-import RegistrationPageTest from "@/components/module_reg_auth/RegistrationPage_test.vue";
-import Chat from "@/components/module_chat/Chat.vue";
-import RegistrationPage from "@/components/module_reg_auth/RegistrationPage.vue";
 import {useUserStore} from "@/store/user.js";
 
 const routes = [
     {
-        path: '/', name: "Chat", component: Chat, beforeEnter: () => {
+        path: '/', name: "Chat", component: () => import('@/components/module_chat/Chat.vue'), beforeEnter: () => {
             const userStore = useUserStore();
             if (userStore.isLogged === false) {
                 return '/registration';
@@ -13,7 +10,7 @@ const routes = [
         }
     },
     {
-        path: '/registration', name: "Registration", component: RegistrationPage, beforeEnter: () => {
+        path: '/registration', name: "Registration", component: () => import("@/components/module_reg_auth/RegistrationPage.vue"), beforeEnter: () => {
             const userStore = useUserStore();
             if (userStore.isLogged === true) {
                 return '/';
