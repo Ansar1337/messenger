@@ -6,7 +6,6 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 
 const userStore = useUserStore();
-userStore.name = "Ansar";
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
