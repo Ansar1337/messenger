@@ -1,5 +1,14 @@
 <script setup>
 import Chat from "@/components/module_chat/Chat.vue";
+import {onMounted} from "vue";
+import {useUserStore} from "@/store/user.js";
+
+const userStore = useUserStore();
+
+onMounted(() => {
+  userStore.logIn();
+});
+
 </script>
 
 <template>

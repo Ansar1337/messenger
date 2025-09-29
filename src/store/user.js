@@ -16,6 +16,12 @@ export const useUserStore = defineStore(
         }),
         // основная логика стора, могут изменять state
         actions: {
+            loadUserData() {
+                const userData = getUserData().data;
+                this.name = userData.username;
+                this.status = userData.status;
+                this.mutedUserList = userData.mutedUserList;
+            },
             changeStatus(newStatus) {
                 this.isLogged = newStatus;
             },
@@ -23,11 +29,7 @@ export const useUserStore = defineStore(
                 this.name = newName;
             },
             logIn() {
-                // Нужно заполнить стейт актуальными данными для залогиненного пользователя. Как?
-                const userData = getUserData().data;
-                this.name = userData.username;
-                this.status = userData.status;
-                this.mutedUserList = userData.mutedUserList;
+                this.loadUserData();
                 this.isLogged = true;
                 return router.replace({name: 'Chat'});
             },
