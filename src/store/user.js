@@ -18,9 +18,15 @@ export const useUserStore = defineStore(
         actions: {
             loadUserData() {
                 const userData = getUserData().data;
-                this.name = userData.username;
-                this.status = userData.status;
-                this.mutedUserList = userData.mutedUserList;
+                const userStatus = getUserData().status;
+                if (userStatus === "ok") {
+                    this.name = userData.username;
+                    this.status = userData.status;
+                    this.mutedUserList = userData.mutedUserList;
+                    this.isLogged = true;
+                } else {
+                    this.isLogged = false;
+                }
             },
             changeStatus(newStatus) {
                 this.isLogged = newStatus;
@@ -29,12 +35,12 @@ export const useUserStore = defineStore(
                 this.name = newName;
             },
             logIn() {
-                this.loadUserData();
                 this.isLogged = true;
                 return router.replace({name: 'Chat'});
             },
             logOut() {
                 this.isLogged = false;
+                localStorage.clear();
                 return router.replace({name: 'Registration'});
             }
         },

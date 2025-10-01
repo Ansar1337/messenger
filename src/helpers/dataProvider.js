@@ -1,19 +1,3 @@
-/*
-
-   JSON
-
-   {
-       status: "ok"/"error",
-       data: ANY
-   }
-
-    */
-
-// Нужно чтобы данные из userData были доступны в компонентах
-// Данные userData, а точнее его свойства должны использоваться в state store pinia
-// Данные userData хранятся в localStorage, а сохраняются туда при регистрации пользователя. Обратиться к ним можно через метод getUserData()
-
-// Как данные userData постовлять в компоненты приложения?
 (() => {
     const knownUsers = JSON.parse(localStorage.getItem("userList")) ?? {
         //login:password
@@ -21,8 +5,6 @@
         "Denis": "1234"
     }
 
-// Нужно сохранять пользователей в обьект userData c возможностью расширения
-// Как мне разделять пользователей внутри обьекта
     const userData = JSON.parse(localStorage.getItem("userData")) ?? {
         "Ansar": {
             username: "Ansar",
@@ -35,6 +17,8 @@
             status: "offline"
         }
     }
+
+    localStorage.setItem("userList", JSON.stringify(knownUsers));
     localStorage.setItem("userData", JSON.stringify(userData));
 })();
 
@@ -94,10 +78,8 @@ export function getUserData() {
     const currentUser = localStorage.getItem("currentUser");
     const userData = JSON.parse(localStorage.getItem("userData"));
 
+    if (!currentUser) {
+        return {status: "error", data: "no current user"};
+    }
     return {status: "ok", data: userData[currentUser]};
-    /*
-    Нам нужно придумать, как хранить логин и список замьюченных пользователей,
-    кроме того важно передавать статус ответа
-
-     */
 }
