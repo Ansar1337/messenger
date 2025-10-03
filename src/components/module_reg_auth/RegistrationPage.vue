@@ -90,7 +90,7 @@ function submit(e) {
     <p v-if="error" style="color:red">{{ error }}</p>
 
     <!--    Buttons-->
-    <button class="auth-button">
+    <button type="submit" class="auth-button">
       {{ isRegister ? "Создать" : "Войти" }}
     </button>
     <button type="button" @click="toggleMode" class="auth-button">

@@ -35,12 +35,12 @@ export const useUserStore = defineStore(
                 this.name = newName;
             },
             logIn() {
-                this.isLogged = true;
+                this.loadUserData();
                 return router.replace({name: 'Chat'});
             },
             logOut() {
                 this.isLogged = false;
-                localStorage.clear();
+                localStorage.removeItem("currentUser");
                 return router.replace({name: 'Registration'});
             }
         },
