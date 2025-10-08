@@ -1,5 +1,5 @@
 (() => {
-    const knownUsers = JSON.parse(localStorage.getItem("userList")) ?? {
+    const knownUsers = JSON.parse(localStorage.getItem("knownUsers")) ?? {
         //login:password
         "Ansar": "1234",
         "Denis": "1234"
@@ -18,12 +18,28 @@
         }
     }
 
-    localStorage.setItem("userList", JSON.stringify(knownUsers));
+    const userList = JSON.parse(localStorage.getItem("userList")) ?? {
+        "Ansar": {
+            username: "Ansar",
+            status: "online",
+        },
+        "Denis": {
+            username: "Denis",
+            status: "away"
+        },
+        "Alex": {
+            username: "Alex",
+            status: "offline"
+        }
+    }
+
+    localStorage.setItem("knownUsers", JSON.stringify(knownUsers));
     localStorage.setItem("userData", JSON.stringify(userData));
+    localStorage.setItem("userList", JSON.stringify(userList));
 })();
 
 export function registerUser(login, password) {
-    const knownUsers = JSON.parse(localStorage.getItem("userList"));
+    const knownUsers = JSON.parse(localStorage.getItem("knownUsers"));
     const userData = JSON.parse(localStorage.getItem("userData"));
     if (knownUsers[login]) {
         return {
@@ -33,7 +49,7 @@ export function registerUser(login, password) {
     } else {
         // храним данные пользователя
         knownUsers[login] = password;
-        localStorage.setItem("userList", JSON.stringify(knownUsers));
+        localStorage.setItem("knownUsers", JSON.stringify(knownUsers));
 
         // храним данные в userData
         userData[login] = {
@@ -54,7 +70,7 @@ export function registerUser(login, password) {
 
 // При регистрации/логине пользователя мы его "помечаем" в localStorage;
 export function validateUser(login, password) {
-    const knownUsers = JSON.parse(localStorage.getItem("userList"));
+    const knownUsers = JSON.parse(localStorage.getItem("knownUsers"));
     if (!knownUsers[login]) {
         return {
             status: "error",
@@ -82,4 +98,9 @@ export function getUserData() {
         return {status: "error", data: "no current user"};
     }
     return {status: "ok", data: userData[currentUser]};
+}
+
+export function getUserListData() {
+    const userList = JSON.parse(localStorage.getItem("userList"));
+    return {status: "ok", data: userList};
 }
