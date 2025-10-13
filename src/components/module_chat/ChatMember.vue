@@ -1,19 +1,37 @@
 <script setup>
-defineProps(["icon","nickname","status"]);
+import {useUserListStore} from "@/store/userList.js";
+
+const userList = useUserListStore();
 </script>
 
 <template>
-  <div class="chat-member-info">
-    <div class="icon"><img src="../../../public/images/free-user-icon-3296-thumb.png" alt="chat-member-icon">
+
+  <div class="chat-members">
+    <div
+        class="chat-member-info"
+        v-for="user in userList.users"
+        :key="user.nickname">
+      <div class="icon">
+        <img
+            :src="user.icon"
+            alt="chat-member-icon"/>
+      </div>
+      <div class="nickname">{{ user.nickname }}</div>
+      <div :class="`status-${user.status}`"></div>
+      <button class="btn-lock btn-unlock">Заблокировать</button>
     </div>
-    <div class="nickname">{{nickname}}</div>
-    <div :class="`status-${status}`"></div>
-    <button class="btn-lock btn-unlock">Заблокировать</button>
   </div>
 
 </template>
 
 <style scoped>
+
+.chat-members {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .chat-member-info {
   display: flex;
   gap: 10px;
@@ -44,5 +62,9 @@ defineProps(["icon","nickname","status"]);
 .icon img {
   width: 30px;
   height: 30px;
+}
+
+.nickname {
+  width: 40px;
 }
 </style>

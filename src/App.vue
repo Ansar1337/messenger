@@ -2,11 +2,14 @@
 import Chat from "@/components/module_chat/Chat.vue";
 import {onMounted} from "vue";
 import {useUserStore} from "@/store/user.js";
+import {useUserListStore} from "@/store/userList.js";
 
 const userStore = useUserStore();
+const userList = useUserListStore();
 
 onMounted(() => {
   userStore.loadUserData();
+  userList.loadUserListData();
 });
 
 </script>

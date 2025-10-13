@@ -4,8 +4,10 @@ import ChatMember from "@/components/module_chat/ChatMember.vue";
 import {useUserStore} from '@/store/user';
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import {useUserListStore} from "@/store/userList.js";
 
 const userStore = useUserStore();
+const userList = useUserListStore();
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
@@ -33,9 +35,7 @@ const router = useRouter();
     </header>
     <div class="user-list">
       <div class="user-list-heading">Список контактов</div>
-      <ChatMember nickname="user1" status="online"></ChatMember>
-      <ChatMember nickname="user2" status="away"></ChatMember>
-      <ChatMember nickname="user3" status="offline"></ChatMember>
+      <ChatMember></ChatMember>
     </div>
     <div class="chat-window">
       <ChatWindow class="test"></ChatWindow>

@@ -7,11 +7,13 @@
 
     const userData = JSON.parse(localStorage.getItem("userData")) ?? {
         "Ansar": {
+            icon: "",
             username: "Ansar",
             mutedUserList: ["John", "Alex"],
             status: "online"
         },
         "Denis": {
+            icon: "",
             username: "Denis",
             mutedUserList: [],
             status: "offline"
@@ -20,14 +22,17 @@
 
     const userList = JSON.parse(localStorage.getItem("userList")) ?? {
         "Ansar": {
+            icon: "/images/free-user-icon-3296-thumb.png",
             username: "Ansar",
             status: "online",
         },
         "Denis": {
+            icon: "/images/free-user-icon-3296-thumb.png",
             username: "Denis",
             status: "away"
         },
         "Alex": {
+            icon: "/images/free-user-icon-3296-thumb.png",
             username: "Alex",
             status: "offline"
         }
