@@ -23,17 +23,17 @@
     const userList = JSON.parse(localStorage.getItem("userList")) ?? {
         "Ansar": {
             icon: "/images/free-user-icon-3296-thumb.png",
-            username: "Ansar",
+            nickname: "Ansar",
             status: "online",
         },
         "Denis": {
             icon: "/images/free-user-icon-3296-thumb.png",
-            username: "Denis",
+            nickname: "Denis",
             status: "away"
         },
         "Alex": {
             icon: "/images/free-user-icon-3296-thumb.png",
-            username: "Alex",
+            nickname: "Alex",
             status: "offline"
         }
     }

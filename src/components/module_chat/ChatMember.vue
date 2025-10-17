@@ -1,24 +1,19 @@
 <script setup>
 import {useUserListStore} from "@/store/userList.js";
 
-const userList = useUserListStore();
+defineProps(["icon", "nickname", "status", "isMuted"]);
 </script>
 
 <template>
 
   <div class="chat-members">
-    <div
-        class="chat-member-info"
-        v-for="user in userList.users"
-        :key="user.nickname">
+    <div class="chat-member-info">
       <div class="icon">
-        <img
-            :src="user.icon"
-            alt="chat-member-icon"/>
+        <img :src="icon" alt="chat-member-icon">
       </div>
-      <div class="nickname">{{ user.nickname }}</div>
-      <div :class="`status-${user.status}`"></div>
-      <button class="btn-lock btn-unlock">Заблокировать</button>
+      <div class="nickname">{{ nickname }}</div>
+      <div :class="`status-${status}`"></div>
+      <button class="btn-lock btn-unlock">{{ isMuted ? 'Разблокировать' : 'Заблокировать' }}</button>
     </div>
   </div>
 

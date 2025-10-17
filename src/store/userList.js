@@ -9,6 +9,13 @@ export const useUserListStore = defineStore(
             users: []
         }),
         actions: {
+
+            // свойства класса RoomMate - icon, nickname, status
+            // 1. достать свойства из обьекта userListData через цикл
+            // 2. запольнить свойства класса данными из локалстора
+            // 3. заполняем наш стор этими данными которые хранятся в экземпляре класса
+            // 4. достать список замьюченных пользователей из userData который хранится в сторе user, изменить isMuted согласно этому показателю
+
             loadUserListData() {
                 if (this.users.length > 0) {
                     return;
@@ -21,7 +28,7 @@ export const useUserListStore = defineStore(
                     const user = userListData[key];
                     const roomMate = new RoomMate(
                         user.icon,
-                        user.username,
+                        user.nickname,
                         user.status,
                         false
                     );
