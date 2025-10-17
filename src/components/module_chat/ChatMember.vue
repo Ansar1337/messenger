@@ -1,7 +1,8 @@
 <script setup>
 import {useUserListStore} from "@/store/userList.js";
 
-defineProps(["icon", "nickname", "status", "isMuted"]);
+defineProps(["icon", "nickname", "status"]);
+const isMuted = defineModel("isMuted");
 </script>
 
 <template>
@@ -13,7 +14,9 @@ defineProps(["icon", "nickname", "status", "isMuted"]);
       </div>
       <div class="nickname">{{ nickname }}</div>
       <div :class="`status-${status}`"></div>
-      <button class="btn-lock btn-unlock">{{ isMuted ? 'Разблокировать' : 'Заблокировать' }}</button>
+      <button type="button" class="btn-lock btn-unlock" @click="isMuted=!isMuted">
+        {{ isMuted ? 'Разблокировать' : 'Заблокировать' }}
+      </button>
     </div>
   </div>
 

@@ -35,12 +35,13 @@ const router = useRouter();
     </header>
     <div class="user-list">
       <div class="user-list-heading">Список контактов</div>
+      {{userList.users}}
       <ChatMember v-for="user in userList.users"
                   :key="user.nickname"
                   :icon="user.icon"
                   :nickname="user.nickname"
                   :status="user.status"
-                  :isMuted="user.isMuted"
+                  v-model:isMuted="user.isMuted"
       ></ChatMember>
     </div>
     <div class="chat-window">

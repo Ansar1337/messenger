@@ -1,6 +1,8 @@
 import {defineStore} from "pinia";
 import {getUserListData} from "@/helpers/dataProvider.js";
 import {RoomMate} from "@/helpers/classes/RoomMate.js";
+import {useUserStore} from "@/store/user.js";
+import {watch} from "vue";
 
 export const useUserListStore = defineStore(
     "userListStore",
@@ -16,25 +18,45 @@ export const useUserListStore = defineStore(
             // 3. заполняем наш стор этими данными которые хранятся в экземпляре класса
             // 4. достать список замьюченных пользователей из userData который хранится в сторе user, изменить isMuted согласно этому показателю
 
+            // Данные userStore, mutedUserList
+            // Передаем mutedUserList в компонент ChatMember
+            // Cопостовляем данные из mutedUserList(никнеймы) с никнеймами из массива users[],userList
+            // Аnsar, mutedUserList ["John", "Alex"] => при логине за Ansar'a пользователи "John", "Alex" замьючены
+            // mutedUserList ["John", "Alex"] сопоставим с user.nickname
+            // Если есть попадания то эти пользователи isMuted = true
+
+            // Сопостовлять currentLoggedUser со списком пользователей userListData
+            // Если есть попадания, то не пушим его в массив
             loadUserListData() {
                 if (this.users.length > 0) {
                     return;
                 }
 
                 const userListData = getUserListData().data;
-                this.users = [];
+                const currentLoggedUser = useUserStore();
 
                 for (const key in userListData) {
                     const user = userListData[key];
+                    const isMuted = currentLoggedUser.mutedUserList.includes(user.nickname);
+
+                    if (currentLoggedUser.name === user.nickname) {
+                        continue;
+                    }
+
                     const roomMate = new RoomMate(
                         user.icon,
                         user.nickname,
                         user.status,
-                        false
+                        isMuted
                     );
                     this.users.push(roomMate);
                 }
                 console.log("Loaded users:", this.users);
+
+                // TODO
+                watch(this.users, (newVal) => {
+                    console.log("NEW:", JSON.stringify(newVal));
+                });
             },
 
             changeStatus(newStatus) {
@@ -44,7 +66,6 @@ export const useUserListStore = defineStore(
             changeStatusMuted(newStatus) {
                 this.isMuted = newStatus
             }
-
         },
         getters: {
             getStatus(state) {
