@@ -43,6 +43,22 @@
     localStorage.setItem("userList", JSON.stringify(userList));
 })();
 
+// обновить mutedUserList: [] у userData
+// пройтись по userData и достать mutedUserList
+// поменять mutedUserList у специфичного пользователя
+
+// updateUserData(обьект класса User)
+// будет частный случай в которым мы сможем изменять поля присущеи User'у (icon,nickname,status,mutedUserList)
+export function updateUserData(userObject) {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const currentUser = localStorage.getItem("currentUser");
+
+    if (userData[currentUser]) {
+        userData[currentUser] = userObject;
+        localStorage.setItem("userData", JSON.stringify(userData));
+    }
+}
+
 export function registerUser(login, password) {
     const knownUsers = JSON.parse(localStorage.getItem("knownUsers"));
     const userData = JSON.parse(localStorage.getItem("userData"));

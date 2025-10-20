@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia';
 import router from "@/router/router.js";
-import {getUserData} from "@/helpers/dataProvider.js";
+import {getUserData, updateUserData} from "@/helpers/dataProvider.js";
+import {User} from "@/helpers/classes/User.js";
 
 export const useUserStore = defineStore(
     // Айдишник стора, должен быть уник.
@@ -9,6 +10,7 @@ export const useUserStore = defineStore(
     {
         // реактивные данные нашего стора
         state: () => ({
+            icon: "",
             name: "",
             isLogged: false,
             mutedUserList: [],
@@ -42,7 +44,16 @@ export const useUserStore = defineStore(
                 this.isLogged = false;
                 localStorage.removeItem("currentUser");
                 return router.replace({name: 'Registration'});
+            },
+            setMutedList(list) {
+                this.mutedUserList = list;
+                this.updateUser();
+            },
+            updateUser() {
+                const user = new User(this.icon, this.name, this.status, this.mutedUserList);
+                updateUserData(user);
             }
+
         },
         // геттеры
         getters: {
