@@ -36,6 +36,7 @@ export const useUserListStore = defineStore(
 
                 const userListData = getUserListData().data;
                 const currentLoggedUser = useUserStore();
+                console.log(currentLoggedUser.name);
 
                 for (const key in userListData) {
                     const user = userListData[key];
@@ -61,9 +62,9 @@ export const useUserListStore = defineStore(
                 // Сохронять isMuted в currentLoggedUser
                 //
                 watch(
-                    () => this.users.map(user => user.isMuted),
-                    (newVal) => {
-                        // console.log("NEW:", JSON.stringify(newVal));
+                    // () => this.users.map(user => user.isMuted),
+                    this.users,
+                    () => {
                         let newArray = [];
                         for (let i = 0; i < this.users.length; i++) {
                             if (this.users[i].isMuted === true) {
@@ -72,6 +73,7 @@ export const useUserListStore = defineStore(
                         }
                         currentLoggedUser.setMutedList(newArray);
                     });
+
             },
 
             changeStatus(newStatus) {

@@ -11,7 +11,6 @@ const userList = useUserListStore();
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
-
 </script>
 
 <template>
@@ -21,11 +20,11 @@ const router = useRouter();
         <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
         <div class="user-nickname">{{ userStore.name }}</div>
         <div class="user-status">
-          <select>
-            <option>Online</option>
-            <option>Away</option>
-            <option>Busy</option>
-            <option>Offline</option>
+          <select v-model="userStore.status">
+            <option :selected="userStore.status === 'online'" value="online">Online</option>
+            <option :selected="userStore.status === 'away'" value="away">Away</option>
+            <option :selected="userStore.status === 'busy'" value="busy">Busy</option>
+            <option :selected="userStore.status === 'offline'" value="offline">Offline</option>
           </select>
         </div>
       </div>
@@ -35,12 +34,12 @@ const router = useRouter();
     </header>
     <div class="user-list">
       <div class="user-list-heading">Список контактов</div>
-      {{userList.users}}
+      {{userList}}
       <ChatMember v-for="user in userList.users"
                   :key="user.nickname"
                   :icon="user.icon"
                   :nickname="user.nickname"
-                  :status="user.status"
+                  v-model:status="user.status"
                   v-model:isMuted="user.isMuted"
       ></ChatMember>
     </div>

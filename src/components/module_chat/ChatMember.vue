@@ -1,5 +1,4 @@
 <script setup>
-import {useUserListStore} from "@/store/userList.js";
 
 defineProps(["icon", "nickname", "status"]);
 const isMuted = defineModel("isMuted");

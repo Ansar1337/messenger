@@ -8,13 +8,13 @@
     const userData = JSON.parse(localStorage.getItem("userData")) ?? {
         "Ansar": {
             icon: "",
-            username: "Ansar",
+            nickname: "Ansar",
             mutedUserList: ["John", "Alex"],
             status: "online"
         },
         "Denis": {
             icon: "",
-            username: "Denis",
+            nickname: "Denis",
             mutedUserList: [],
             status: "offline"
         }

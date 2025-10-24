@@ -2,6 +2,7 @@ import {defineStore} from 'pinia';
 import router from "@/router/router.js";
 import {getUserData, updateUserData} from "@/helpers/dataProvider.js";
 import {User} from "@/helpers/classes/User.js";
+import {watch} from "vue";
 
 export const useUserStore = defineStore(
     // Айдишник стора, должен быть уник.
@@ -22,13 +23,19 @@ export const useUserStore = defineStore(
                 const userData = getUserData().data;
                 const userStatus = getUserData().status;
                 if (userStatus === "ok") {
-                    this.name = userData.username;
+                    this.name = userData.nickname;
                     this.status = userData.status;
                     this.mutedUserList = userData.mutedUserList;
                     this.isLogged = true;
                 } else {
                     this.isLogged = false;
                 }
+                watch(
+                    this,
+                    () => {
+                        this.updateUser();
+                    }
+                )
             },
             changeStatus(newStatus) {
                 this.isLogged = newStatus;
@@ -52,7 +59,7 @@ export const useUserStore = defineStore(
             updateUser() {
                 const user = new User(this.icon, this.name, this.status, this.mutedUserList);
                 updateUserData(user);
-            }
+            },
 
         },
         // геттеры
