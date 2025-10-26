@@ -5,6 +5,7 @@ import {useUserStore} from '@/store/user';
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {useUserListStore} from "@/store/userList.js";
+import ChatUserAvatar from "@/components/module_chat/ChatUserAvatar.vue";
 
 const userStore = useUserStore();
 const userList = useUserListStore();
@@ -17,7 +18,8 @@ const router = useRouter();
   <div class="container">
     <header>
       <div class="user-icon">
-        <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">
+        <!--        <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">-->
+        <ChatUserAvatar></ChatUserAvatar>
         <div class="user-nickname">{{ userStore.name }}</div>
         <div class="user-status">
           <select v-model="userStore.status">
@@ -34,7 +36,7 @@ const router = useRouter();
     </header>
     <div class="user-list">
       <div class="user-list-heading">Список контактов</div>
-      {{userList}}
+      {{ userList }}
       <ChatMember v-for="user in userList.users"
                   :key="user.nickname"
                   :icon="user.icon"
