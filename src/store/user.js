@@ -22,7 +22,9 @@ export const useUserStore = defineStore(
             loadUserData() {
                 const userData = getUserData().data;
                 const userStatus = getUserData().status;
+                const defaultImagePath = "/images/free-user-icon-3296-thumb.png";
                 if (userStatus === "ok") {
+                    this.icon = userData.icon === "" ? defaultImagePath : userData.icon;
                     this.name = userData.nickname;
                     this.status = userData.status;
                     this.mutedUserList = userData.mutedUserList;

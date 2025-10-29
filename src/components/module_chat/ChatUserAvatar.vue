@@ -1,17 +1,10 @@
 <script setup>
-import {ref} from "vue";
+import {ref, toRef} from "vue";
 import {useUserStore} from "@/store/user.js";
 
 const userStore = useUserStore();
 
-const props = defineProps({
-  image: {
-    type: String,
-    default: "/images/free-user-icon-3296-thumb.png"
-  }
-});
-
-const imageSrc = ref(props.image);
+const imageSrc = toRef(userStore, "icon");
 const isOpen = ref(false);
 
 function openWindow() {
@@ -31,16 +24,17 @@ function fileDownload(event) {
   };
   reader.readAsDataURL(file);
 }
+
+function clickInput() {
+  const hiddenInput = document.getElementById("hiddenInput");
+  hiddenInput.click();
+}
 </script>
 
 <template>
   <div class="image-container">
-    <img :src="imageSrc" alt="preview" class="preview-image" @click="openWindow">
-  </div>
-
-  <div v-if="isOpen" class="image-window">
-    <input type="file" @change="fileDownload">
-    <button @click="closeWindow"></button>
+    <img :src="imageSrc" alt="preview" class="preview-image" @click="clickInput" style="cursor: pointer">
+    <input type="file" id="hiddenInput" @change="fileDownload" style="display: none">
   </div>
 </template>
 
