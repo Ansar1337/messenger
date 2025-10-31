@@ -1,8 +1,9 @@
 <script setup>
 import Chat from "@/components/module_chat/Chat.vue";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {useUserStore} from "@/store/user.js";
 import {useUserListStore} from "@/store/userList.js";
+import asdasdasdas from "@/view.vue";
 
 const userStore = useUserStore();
 const userList = useUserListStore();
@@ -11,11 +12,14 @@ onMounted(() => {
   userStore.loadUserData();
   userList.loadUserListData();
 });
-
+// const tv = ref(0);
 </script>
 
 <template>
   <router-view></router-view>
+  <!--  <asdasdasdas :test_view="tv"></asdasdasdas>
+    {{tv}}-->
+  <!--  <button @click="tv++; q++; console.log(tv, q)">+1</button>-->
 </template>
 
 <style scoped>
