@@ -10,13 +10,15 @@
             icon: "",
             nickname: "Ansar",
             mutedUserList: ["John", "Alex"],
-            status: "online"
+            status: "online",
+            messages: []
         },
         "Denis": {
             icon: "",
             nickname: "Denis",
             mutedUserList: [],
-            status: "offline"
+            status: "offline",
+            messages: []
         }
     }
 

@@ -16,6 +16,7 @@ export const useUserStore = defineStore(
             isLogged: false,
             mutedUserList: [],
             status: "offline",
+            messages: []
         }),
         // основная логика стора, могут изменять state
         actions: {
@@ -28,6 +29,7 @@ export const useUserStore = defineStore(
                     this.name = userData.nickname;
                     this.status = userData.status;
                     this.mutedUserList = userData.mutedUserList;
+                    this.messages = userData.messages;
                     this.isLogged = true;
                 } else {
                     this.isLogged = false;
@@ -59,7 +61,7 @@ export const useUserStore = defineStore(
                 this.updateUser();
             },
             updateUser() {
-                const user = new User(this.icon, this.name, this.status, this.mutedUserList);
+                const user = new User(this.icon, this.name, this.status, this.mutedUserList, this.messages);
                 updateUserData(user);
             },
 

@@ -1,25 +1,40 @@
 <script setup>
 import {ref} from "vue";
 import ChatMessage from "@/components/module_chat/ChatMessage.vue";
+import {useUserStore} from "@/store/user.js";
 
 const message = ref("Введите сообщение...");
+const userStore = useUserStore();
 
 function sendMessage() {
   if (message.value.trim() !== "") {
+    userStore.messages.push(message.value);
     console.log("Отправлено:", message.value);
-    message.value = "";
   }
-
-  function openEmojiPanel() {
-    console.log("Открыть эмодзи");
-  }
+  return message.value;
 }
+
+function openEmojiPanel() {
+  console.log("Открыть эмодзи");
+}
+
 </script>
 
 <template>
   <div class="chat-window-container">
     <div class="bubble-messages">
-      <ChatMessage sender-nickname="Ansar"></ChatMessage>
+      <div class="test" v-if="userStore.messages.length !== 0">
+        <!--      <ChatMessage :sender-nickname="userStore.name" :sender-icon="userStore.icon"
+                           :message-content="userStore.messages.toString()">
+              </ChatMessage>-->
+        <ChatMessage
+            v-for="(msg, index) in userStore.messages"
+            :key="index"
+            :sender-nickname="userStore.name"
+            :sender-icon="userStore.icon"
+            :message-content="msg"
+        />
+      </div>
     </div>
     <div class="chat-window-utils">
       <div class="input-field">
@@ -29,7 +44,6 @@ function sendMessage() {
       <button class="send-btn" @click="sendMessage">➤</button>
     </div>
   </div>
-
 
 </template>
 

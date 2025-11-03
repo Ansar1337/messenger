@@ -1,7 +1,9 @@
 <script setup>
+
 const now = new Date();
 const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-defineProps(["senderIcon", "senderNickname", "messageDate"]);
+defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
+
 </script>
 
 <!--
@@ -20,6 +22,7 @@ defineProps(["senderIcon", "senderNickname", "messageDate"]);
         </div>
         <div class="message-tail right"></div>
         <slot></slot>
+        <div class="message-content">{{ messageContent }}</div>
         <div class="message-date">{{ messageDate }}</div>
         <div class="message-timestamp">{{ timeString }}</div>
       </div>
