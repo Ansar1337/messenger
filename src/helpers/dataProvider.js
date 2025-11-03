@@ -40,9 +40,14 @@
         }
     }
 
+    const messageData = JSON.parse(localStorage.getItem("messageData")) ?? {
+        messages: []
+    }
+
     localStorage.setItem("knownUsers", JSON.stringify(knownUsers));
     localStorage.setItem("userData", JSON.stringify(userData));
     localStorage.setItem("userList", JSON.stringify(userList));
+    localStorage.setItem("messageData", JSON.stringify(messageData));
 })();
 
 // обновить mutedUserList: [] у userData

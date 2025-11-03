@@ -1,8 +1,11 @@
 <script setup>
 
+import {useUserStore} from "@/store/user.js";
+
 const now = new Date();
 const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
+const userStore = useUserStore();
 
 </script>
 
@@ -13,7 +16,7 @@ defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
 дату и время отправки.-->
 
 <template>
-  <div class="container">
+  <div :class="`container ${senderNickname === userStore.name ? 'sender' : 'receiver'}`">
     <div class="bubble-overlay">
       <div class="bubble-message">
         <div class="sender-data-container">
@@ -31,6 +34,17 @@ defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
 </template>
 
 <style scoped>
+
+.container .sender {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container .receiver {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .bubble-overlay {
   display: flex;
   align-items: center;

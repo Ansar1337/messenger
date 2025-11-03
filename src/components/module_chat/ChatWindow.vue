@@ -23,7 +23,7 @@ function openEmojiPanel() {
 <template>
   <div class="chat-window-container">
     <div class="bubble-messages">
-      <div class="test" v-if="userStore.messages.length !== 0">
+      <div class="bubble-messages-container" v-if="userStore.messages.length !== 0">
         <!--      <ChatMessage :sender-nickname="userStore.name" :sender-icon="userStore.icon"
                            :message-content="userStore.messages.toString()">
               </ChatMessage>-->
@@ -62,11 +62,17 @@ function openEmojiPanel() {
 .bubble-messages {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /*justify-content: flex-end;*/
   align-items: flex-end;
   overflow-y: auto;
   flex-grow: 1;
   padding: 8px 12px;
+}
+
+.bubble-messages-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 }
 
 .chat-window-utils {

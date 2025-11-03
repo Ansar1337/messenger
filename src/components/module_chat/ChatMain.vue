@@ -12,6 +12,12 @@ const userList = useUserListStore();
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
+//TODO фикс чата
+/*
+1. плавает скролл
+2. фикс контейнера по ширине
+3. выравнивания сообщений
+ */
 </script>
 
 <template>
@@ -35,7 +41,7 @@ const router = useRouter();
       </div>
     </header>
     <div class="user-list">
-      {{ userStore }}
+      <!--      {{ userStore }}-->
       <div class="user-list-heading">Список контактов</div>
       <!--      {{ userList }}-->
       <ChatMember v-for="user in userList.users"
@@ -119,5 +125,6 @@ header {
 .chat-window {
   grid-area: chat;
   background-color: #205921;
+  max-height: calc(100vh - 30px);
 }
 </style>
