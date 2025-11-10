@@ -23,7 +23,7 @@ const userStore = useUserStore();
           <div class="sender-avatar"><img :src="senderIcon" alt="user avatar"></div>
           <div class="nickname">{{ senderNickname }}</div>
         </div>
-        <div class="message-tail right"></div>
+        <div :class="`message-tail ${senderNickname === userStore.name ? 'right' : 'left'}`"></div>
         <slot></slot>
         <div class="message-content">{{ messageContent }}</div>
         <div class="message-date">{{ messageDate }}</div>
@@ -71,10 +71,22 @@ const userStore = useUserStore();
   border-bottom-right-radius: 0;
 }
 
-.message-tail {
+.message-tail.right {
   position: absolute;
   bottom: 0;
   right: -5px;
+  width: 0;
+  height: 0;
+  /* border-top: 10px solid transparent; */
+  border-left: 17px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid #744848;
+}
+
+.message-tail.left {
+  position: absolute;
+  bottom: 0;
+  left: -12px;
   width: 0;
   height: 0;
   /* border-top: 10px solid transparent; */

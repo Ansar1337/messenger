@@ -40,9 +40,28 @@
         }
     }
 
-    const messageData = JSON.parse(localStorage.getItem("messageData")) ?? {
-        messages: []
-    }
+    const messageData = JSON.parse(localStorage.getItem("messageData")) ?? [
+        {
+            senderNickname: "Ansar",
+            messageContent: "Hello",
+            messageDate: "2025-11-07T13:46:03.982Z"
+        },
+        {
+            senderNickname: "Denis",
+            messageContent: "World",
+            messageDate: "2025-11-07T13:47:03.982Z"
+        },
+        {
+            senderNickname: "Ansar",
+            messageContent: "Bye",
+            messageDate: "2025-11-07T13:48:03.982Z"
+        },
+        {
+            senderNickname: "Denis",
+            messageContent: "Bye Bye",
+            messageDate: "2025-11-07T13:49:03.982Z"
+        },
+    ]
 
     localStorage.setItem("knownUsers", JSON.stringify(knownUsers));
     localStorage.setItem("userData", JSON.stringify(userData));
@@ -64,6 +83,15 @@ export function updateUserData(userObject) {
         userData[currentUser] = userObject;
         localStorage.setItem("userData", JSON.stringify(userData));
     }
+}
+
+// Обновлять данные сообщений согласно их макету
+// Структура сообщений - senderNickname, messageContent, messageDate
+// Нужно их обновить (старые данные -> новые данные)
+export function updateMessageData() {
+    let messageData = JSON.parse(localStorage.getItem("messageData"));
+
+
 }
 
 export function registerUser(login, password) {
@@ -131,4 +159,9 @@ export function getUserData() {
 export function getUserListData() {
     const userList = JSON.parse(localStorage.getItem("userList"));
     return {status: "ok", data: userList};
+}
+
+export function getMessageData() {
+    const message = JSON.parse(localStorage.getItem("messageData"));
+    return {status: "ok", data: message};
 }

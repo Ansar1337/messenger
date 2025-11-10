@@ -28,7 +28,6 @@ export const useUserListStore = defineStore(
             /*Сопостовлять currentLoggedUser со списком пользователей userListData
             Если есть попадания, то не пушим его в массив*/
 
-            //
             loadUserListData() {
                 if (this.users.length > 0) {
                     return;
@@ -56,11 +55,6 @@ export const useUserListStore = defineStore(
                 }
                 console.log("Loaded users:", this.users);
 
-                // TODO
-                // Отслеживать isMuted
-                // Сохронять состояние isMuted при клике на кнопку
-                // Сохронять isMuted в currentLoggedUser
-                //
                 watch(
                     // () => this.users.map(user => user.isMuted),
                     this.users,

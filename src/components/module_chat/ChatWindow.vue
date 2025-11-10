@@ -2,13 +2,16 @@
 import {ref} from "vue";
 import ChatMessage from "@/components/module_chat/ChatMessage.vue";
 import {useUserStore} from "@/store/user.js";
+import {useMessageStore} from "@/store/message.js";
 
-const message = ref("Введите сообщение...");
+const message = ref("");
 const userStore = useUserStore();
+const messageStore = useMessageStore();
 
 function sendMessage() {
   if (message.value.trim() !== "") {
-    userStore.messages.push(message.value);
+    //userStore.messages.push(message.value);
+    messageStore.messages.push(message.value);
     console.log("Отправлено:", message.value);
   }
   return message.value;
@@ -22,17 +25,16 @@ function openEmojiPanel() {
 
 <template>
   <div class="chat-window-container">
+
     <div class="bubble-messages">
-      <div class="bubble-messages-container" v-if="userStore.messages.length !== 0">
-        <!--      <ChatMessage :sender-nickname="userStore.name" :sender-icon="userStore.icon"
-                           :message-content="userStore.messages.toString()">
-              </ChatMessage>-->
+      <div class="bubble-messages-container" v-if="messageStore.messages.length !== 0">
+        <div style="color: black"> {{ userStore.name }}</div>
         <ChatMessage
-            v-for="(msg, index) in userStore.messages"
+            v-for="(msg, index) in messageStore.messages"
             :key="index"
-            :sender-nickname="userStore.name"
+            :sender-nickname="msg.senderNickname"
             :sender-icon="userStore.icon"
-            :message-content="msg"
+            :message-content="msg.messageContent"
         />
       </div>
     </div>
