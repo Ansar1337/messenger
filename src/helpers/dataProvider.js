@@ -85,13 +85,11 @@ export function updateUserData(userObject) {
     }
 }
 
-// Обновлять данные сообщений согласно их макету
 // Структура сообщений - senderNickname, messageContent, messageDate
-// Нужно их обновить (старые данные -> новые данные)
-export function updateMessageData() {
+export function updateMessageData(messageObject) {
     let messageData = JSON.parse(localStorage.getItem("messageData"));
-
-
+    messageData.push(messageObject);
+    localStorage.setItem("messageData", JSON.stringify(messageData));
 }
 
 export function registerUser(login, password) {

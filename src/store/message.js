@@ -29,14 +29,17 @@ export const useMessageStore = defineStore(
                 console.log("messages: ", this.messages);
 
                 watch(
-                    this.messages,
+                    this,
                     () => {
-
+                        this.updateMessage();
                     }
                 )
             },
             updateMessage() {
-                const message = new Message(this.messages.senderNickname, this.messages.messageContent, this.messages.messageDate);
+                const lastMessage = this.messages[this.messages.length - 1];
+                const currentUser = localStorage.getItem("currentUser");
+                const messageDate = new Date().toISOString();
+                const message = new Message(currentUser, lastMessage, messageDate);
                 updateMessageData(message);
             }
         }

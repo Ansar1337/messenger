@@ -10,7 +10,6 @@ const messageStore = useMessageStore();
 
 function sendMessage() {
   if (message.value.trim() !== "") {
-    //userStore.messages.push(message.value);
     messageStore.messages.push(message.value);
     console.log("Отправлено:", message.value);
   }

@@ -6,9 +6,11 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {useUserListStore} from "@/store/userList.js";
 import ChatUserAvatar from "@/components/module_chat/ChatUserAvatar.vue";
+import {useMessageStore} from "@/store/message.js";
 
 const userStore = useUserStore();
 const userList = useUserListStore();
+const messageStore = useMessageStore();
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
@@ -44,6 +46,7 @@ const router = useRouter();
       <!--      {{ userStore }}-->
       <div class="user-list-heading">Список контактов</div>
       <!--      {{ userList }}-->
+      {{messageStore}}
       <ChatMember v-for="user in userList.users"
                   :key="user.nickname"
                   :icon="user.icon"
