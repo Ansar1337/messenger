@@ -3,6 +3,8 @@ import {ref} from "vue";
 import ChatMessage from "@/components/module_chat/ChatMessage.vue";
 import {useUserStore} from "@/store/user.js";
 import {useMessageStore} from "@/store/message.js";
+import {updateMessageData} from "@/helpers/dataProvider.js";
+import {Message} from "@/helpers/classes/Message.js";
 
 const message = ref("");
 const userStore = useUserStore();
@@ -10,14 +12,20 @@ const messageStore = useMessageStore();
 
 function sendMessage() {
   if (message.value.trim() !== "") {
-    messageStore.messages.push(message.value);
+    messageStore.addMessage(message.value);
     console.log("Отправлено:", message.value);
+    message.value = "";
   }
-  return message.value;
+}
+
+function enterKeyHandler(e) {
+  if (e.key === "Enter" && e.shiftKey === false && e.ctrlKey === false) {
+    sendMessage();
+  }
 }
 
 function openEmojiPanel() {
-  console.log("Открыть эмодзи");
+  console.log("Открыть эмодзи")
 }
 
 </script>
@@ -39,7 +47,7 @@ function openEmojiPanel() {
     </div>
     <div class="chat-window-utils">
       <div class="input-field">
-        <textarea placeholder="" v-model="message"></textarea>
+        <textarea placeholder="Write a message..." v-model="message" @keydown="enterKeyHandler"></textarea>
       </div>
       <button class="emoji-btn" @click="openEmojiPanel">😀</button>
       <button class="send-btn" @click="sendMessage">➤</button>

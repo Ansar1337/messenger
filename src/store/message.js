@@ -28,19 +28,15 @@ export const useMessageStore = defineStore(
 
                 console.log("messages: ", this.messages);
 
-                watch(
-                    this,
-                    () => {
-                        this.updateMessage();
-                    }
-                )
             },
-            updateMessage() {
-                const lastMessage = this.messages[this.messages.length - 1];
+            // 1. addMessage передаем данные пинии
+            // 2. форматируем данные и сохроняем в localStorage
+            addMessage(rawMessage) {
                 const currentUser = localStorage.getItem("currentUser");
                 const messageDate = new Date().toISOString();
-                const message = new Message(currentUser, lastMessage, messageDate);
+                const message = new Message(currentUser, rawMessage, messageDate);
                 updateMessageData(message);
+                this.messages.push(message);
             }
         }
     }
