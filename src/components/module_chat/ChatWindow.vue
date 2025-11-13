@@ -15,6 +15,9 @@ function sendMessage() {
   if (message.value.trim() !== "") {
     messageStore.addMessage(message.value);
     console.log("Отправлено:", message.value);
+    nextTick(() => {
+      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+    });
     message.value = "";
   }
 }
@@ -23,9 +26,6 @@ function enterKeyHandler(e) {
   if (e.key === "Enter" && e.shiftKey === false && e.ctrlKey === false) {
     e.preventDefault();
     sendMessage();
-    nextTick(() => {
-      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
-    });
   }
 }
 
