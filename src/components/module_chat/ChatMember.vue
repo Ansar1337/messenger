@@ -6,7 +6,7 @@ const isMuted = defineModel("isMuted");
 
 <template>
 
-  <div class="chat-members">
+  <div class="chat-members-container">
     <div class="chat-member-info">
       <div class="icon">
         <img :src="icon" alt="chat-member-icon">
@@ -23,7 +23,7 @@ const isMuted = defineModel("isMuted");
 
 <style scoped>
 
-.chat-members {
+.chat-members-container {
   display: flex;
   flex-direction: column;
   gap: 5px;

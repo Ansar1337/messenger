@@ -43,29 +43,26 @@ const router = useRouter();
       </div>
     </header>
     <div class="user-list">
-      <!--      {{ userStore }}-->
-      <div class="user-list-heading">Список контактов</div>
-      <!--      {{ userList }}-->
-      {{messageStore}}
-      <ChatMember v-for="user in userList.users"
-                  :key="user.nickname"
-                  :icon="user.icon"
-                  :nickname="user.nickname"
-                  :status="user.status"
-                  v-model:isMuted="user.isMuted"
-      ></ChatMember>
+      <div class="user-list-container">
+        <!--      {{ userStore }}-->
+        <div class="user-list-heading">Список контактов</div>
+        <div class="chat-members">
+          <!--      {{ userList }}-->
+          {{ messageStore }}
+          <ChatMember v-for="user in userList.users"
+                      :key="user.nickname"
+                      :icon="user.icon"
+                      :nickname="user.nickname"
+                      :status="user.status"
+                      v-model:isMuted="user.isMuted"
+          ></ChatMember>
+        </div>
+      </div>
     </div>
     <div class="chat-window">
       <ChatWindow></ChatWindow>
     </div>
-
   </div>
-
-
-  <!--  <div>ChatMain</div>-->
-  <!--  <button @click="array.push('new message')">Button</button>-->
-  <!--  <button @click="array.pop()">Remove</button>-->
-  <!--  <ChatMessage v-for="item in array" sender-icon="" sender-nickname="Ansar" message-date="today">{{item}}</ChatMessage>-->
 </template>
 
 <style scoped>
@@ -106,6 +103,18 @@ const router = useRouter();
 .user-list {
   grid-area: user-list;
   background-color: #2c3e50;
+  max-height: calc(100vh - 30px);
+}
+
+.user-list-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-members {
+  overflow-y: auto;
+  flex-grow: 1
 }
 
 header {
