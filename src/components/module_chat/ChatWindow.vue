@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {nextTick, ref} from "vue";
 import ChatMessage from "@/components/module_chat/ChatMessage.vue";
 import {useUserStore} from "@/store/user.js";
 import {useMessageStore} from "@/store/message.js";
@@ -7,6 +7,7 @@ import {updateMessageData} from "@/helpers/dataProvider.js";
 import {Message} from "@/helpers/classes/Message.js";
 
 const message = ref("");
+const messageContainer = ref("");
 const userStore = useUserStore();
 const messageStore = useMessageStore();
 
@@ -20,7 +21,11 @@ function sendMessage() {
 
 function enterKeyHandler(e) {
   if (e.key === "Enter" && e.shiftKey === false && e.ctrlKey === false) {
+    e.preventDefault();
     sendMessage();
+    nextTick(() => {
+      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+    });
   }
 }
 
@@ -33,7 +38,7 @@ function openEmojiPanel() {
 <template>
   <div class="chat-window-container">
 
-    <div class="bubble-messages">
+    <div class="bubble-messages" ref="messageContainer">
       <div class="bubble-messages-container" v-if="messageStore.messages.length !== 0">
         <div style="color: black"> {{ userStore.name }}</div>
         <ChatMessage
@@ -74,6 +79,7 @@ function openEmojiPanel() {
   /*justify-content: flex-end;*/
   align-items: flex-end;
   overflow-y: auto;
+  scroll-behavior: smooth;
   flex-grow: 1;
   padding: 8px 12px;
 }
