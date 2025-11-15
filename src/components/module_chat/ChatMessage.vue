@@ -68,7 +68,7 @@ const userStore = useUserStore();
   align-self: flex-start;
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-bottom-right-radius: 0;
+  /*border-bottom-right-radius: 0;*/
 }
 
 .message-tail.right {
@@ -86,12 +86,12 @@ const userStore = useUserStore();
 .message-tail.left {
   position: absolute;
   bottom: 0;
-  left: -12px;
+  left: -5px;
   width: 0;
   height: 0;
   /* border-top: 10px solid transparent; */
-  border-left: 17px solid transparent;
-  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  border-right: 17px solid transparent;
   border-bottom: 10px solid #744848;
 }
 

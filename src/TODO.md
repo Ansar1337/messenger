@@ -6,7 +6,7 @@
 4. [x] Автоскролл сообщений
 5. [ ] Визуальное разлечения бабблов (sender,receiver)
 6. [ ] Фикс отоброжения аватарок для каждого пользователя
-7. [ ] Фикс скролла и размера контейнера у Списка Контактов
+7. [x] Фикс скролла и размера контейнера у Списка Контактов
 8. [x] Стрирании поле ввода сообщения при его отправки
 
 // CHAT WINDOW
@@ -31,3 +31,11 @@ chat-members зададим overflow-y: auto и flex-grow: 1
 Так как DOM обновляется асинхронно нужно использовать setTimeout(), чтобы скролл произошел когда добавится новое сообщение
 Edit: можно использова nextTick(), vue utility function
 nextTick allows you to execute code after you have changed some data and Vue.js has updated the virtual DOM based on your data change, but before the browser has rendered that change on the page.
+
+// Отоброжение аватарок для каждого пользователя
+Проверять текущего залогинненого пользователя, и только у него выставлять аватарку
+
+// Визуальное разлечения бабблов (sender,receiver)
+Фикс стилей баблов
+Убрал /*border-bottom-right-radius: 0;*/ для мягкого угла у сообщений
+Изменил у левого хвостика его левый и правый border для соответсвия общей стилистеке c правым хвостиком
