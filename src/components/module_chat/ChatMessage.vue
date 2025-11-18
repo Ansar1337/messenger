@@ -18,31 +18,41 @@ const userStore = useUserStore();
 <template>
   <div :class="`container ${senderNickname === userStore.name ? 'sender' : 'receiver'}`">
     <div class="bubble-overlay">
+
+      <div class="sender-avatar">
+        <img :src="senderIcon" alt="user avatar">
+      </div>
+
       <div class="bubble-message">
         <div class="sender-data-container">
-          <!--          <div class="sender-avatar"><img :src="senderIcon" alt="user avatar"></div>-->
           <div class="nickname">{{ senderNickname }}</div>
         </div>
-        <div :class="`message-tail ${senderNickname === userStore.name ? 'right' : 'left'}`"></div>
-        <slot></slot>
+
         <div class="message-content">{{ messageContent }}</div>
-        <div class="message-date">{{ messageDate }}</div>
-        <div class="message-timestamp">{{ timeString }}</div>
+
+        <div class="message-meta">
+          <div class="message-date">{{ messageDate }}</div>
+          <div class="message-timestamp">{{ timeString }}</div>
+        </div>
+
+        <div :class="`message-tail ${senderNickname === userStore.name ? 'right' : 'left'}`"></div>
+
       </div>
-      <div class="sender-avatar"><img :src="senderIcon" alt="user avatar"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
 
-.container.sender {
+.container {
   display: flex;
+}
+
+.container.sender {
   justify-content: flex-end;
 }
 
 .container.receiver {
-  display: flex;
   justify-content: flex-start;
 }
 
@@ -50,57 +60,46 @@ const userStore = useUserStore();
   background: #b98383;
 }
 
-.container .receiver .bubble-overlay {
-  display: flex;
-  flex-direction: row-reverse;
-}
-
 .bubble-overlay {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  align-items: flex-end;
   min-height: 100px;
   gap: 15px;
+  padding: 1rem;
 }
 
-.sender-data-container {
-  display: flex;
+.container.sender .bubble-overlay {
+  flex-direction: row-reverse;
 }
 
 .bubble-message {
   position: relative;
   display: flex;
+  flex-direction: column;
+  padding: 8px 40px 6px 10px;
   border-radius: 12px;
   background: #744848;
-  text-align: center;
-  padding: 1rem;
-  flex-direction: column;
-  align-self: flex-start;
+ /* align-self: flex-start;*/
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  /*border-bottom-right-radius: 0;*/
+}
+
+.message-tail {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
 }
 
 .message-tail.right {
-  position: absolute;
-  bottom: 0;
   right: -5px;
-  width: 0;
-  height: 0;
-  /* border-top: 10px solid transparent; */
   border-left: 17px solid transparent;
   border-right: 5px solid transparent;
   border-bottom: 10px solid #744848;
 }
 
 .message-tail.left {
-  position: absolute;
-  bottom: 0;
   left: -5px;
-  width: 0;
-  height: 0;
-  /* border-top: 10px solid transparent; */
   border-left: 5px solid transparent;
   border-right: 17px solid transparent;
   border-bottom: 10px solid #b98383;
@@ -119,9 +118,14 @@ const userStore = useUserStore();
 }
 
 .nickname {
-  font-weight: bold;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
+}
+
+.message-content {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
 }
 
 .message-date,
