@@ -20,7 +20,7 @@ const userStore = useUserStore();
     <div class="bubble-overlay">
       <div class="bubble-message">
         <div class="sender-data-container">
-          <div class="sender-avatar"><img :src="senderIcon" alt="user avatar"></div>
+          <!--          <div class="sender-avatar"><img :src="senderIcon" alt="user avatar"></div>-->
           <div class="nickname">{{ senderNickname }}</div>
         </div>
         <div :class="`message-tail ${senderNickname === userStore.name ? 'right' : 'left'}`"></div>
@@ -29,20 +29,30 @@ const userStore = useUserStore();
         <div class="message-date">{{ messageDate }}</div>
         <div class="message-timestamp">{{ timeString }}</div>
       </div>
+      <div class="sender-avatar"><img :src="senderIcon" alt="user avatar"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
 
-.container .sender {
+.container.sender {
   display: flex;
   justify-content: flex-end;
 }
 
-.container .receiver {
+.container.receiver {
   display: flex;
   justify-content: flex-start;
+}
+
+.container .receiver .bubble-message {
+  background: #b98383;
+}
+
+.container .receiver .bubble-overlay {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .bubble-overlay {
@@ -51,6 +61,7 @@ const userStore = useUserStore();
   justify-content: center;
   padding: 1rem;
   min-height: 100px;
+  gap: 15px;
 }
 
 .sender-data-container {
@@ -62,7 +73,7 @@ const userStore = useUserStore();
   display: flex;
   border-radius: 12px;
   background: #744848;
-  /* text-align: center; */
+  text-align: center;
   padding: 1rem;
   flex-direction: column;
   align-self: flex-start;
@@ -79,7 +90,7 @@ const userStore = useUserStore();
   height: 0;
   /* border-top: 10px solid transparent; */
   border-left: 17px solid transparent;
-  border-right: 6px solid transparent;
+  border-right: 5px solid transparent;
   border-bottom: 10px solid #744848;
 }
 
@@ -90,15 +101,21 @@ const userStore = useUserStore();
   width: 0;
   height: 0;
   /* border-top: 10px solid transparent; */
-  border-left: 6px solid transparent;
+  border-left: 5px solid transparent;
   border-right: 17px solid transparent;
-  border-bottom: 10px solid #744848;
+  border-bottom: 10px solid #b98383;
+}
+
+.sender-avatar {
+  margin-top: 40px;
 }
 
 .sender-avatar img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-bottom: 0.5rem;
+  /*margin-bottom: 0.5rem;*/
+  /*margin-top: 3.5rem;*/
 }
 
 .nickname {

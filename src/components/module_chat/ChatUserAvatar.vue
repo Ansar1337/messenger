@@ -1,8 +1,10 @@
 <script setup>
 import {ref, toRef} from "vue";
 import {useUserStore} from "@/store/user.js";
+import {useUserListStore} from "@/store/userList.js";
 
 const userStore = useUserStore();
+const userListStore = useUserListStore();
 
 const imageSrc = toRef(userStore, "icon");
 const isOpen = ref(false);

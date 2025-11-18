@@ -5,11 +5,13 @@ import {useUserStore} from "@/store/user.js";
 import {useMessageStore} from "@/store/message.js";
 import {updateMessageData} from "@/helpers/dataProvider.js";
 import {Message} from "@/helpers/classes/Message.js";
+import {useUserListStore} from "@/store/userList.js";
 
 const message = ref("");
 const messageContainer = ref("");
 const userStore = useUserStore();
 const messageStore = useMessageStore();
+const userListStore = useUserListStore();
 
 function sendMessage() {
   if (message.value.trim() !== "") {
@@ -41,11 +43,13 @@ function openEmojiPanel() {
     <div class="bubble-messages" ref="messageContainer">
       <div class="bubble-messages-container" v-if="messageStore.messages.length !== 0">
         <div style="color: black"> {{ userStore.name }}</div>
+        <!--            отоброжать аватарку у текущего пользователя-->
+        <!--        отоброжать аватарку контректного пользователя, у Ansar своя аватарка, у Денис тоже своя-->
         <ChatMessage
             v-for="(msg, index) in messageStore.messages"
             :key="index"
             :sender-nickname="msg.senderNickname"
-            :sender-icon="userStore.icon"
+            :sender-icon="msg.senderNickname === userStore.name ? userStore.icon : userListStore.users.find(u => u.nickname === msg.senderNickname).icon"
             :message-content="msg.messageContent"
         />
       </div>

@@ -44,11 +44,12 @@ const router = useRouter();
     </header>
     <div class="user-list">
       <div class="user-list-container">
-        <!--      {{ userStore }}-->
         <div class="user-list-heading">Список контактов</div>
         <div class="chat-members">
-          <!--      {{ userList }}-->
-          {{ messageStore }}
+          {{ userList }}
+          <div>Инфа о пользователе</div>
+          {{userStore}}
+          <!--          {{ messageStore }}-->
           <ChatMember v-for="user in userList.users"
                       :key="user.nickname"
                       :icon="user.icon"
