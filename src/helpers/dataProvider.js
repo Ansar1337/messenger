@@ -11,34 +11,38 @@
             nickname: "Ansar",
             mutedUserList: ["John", "Alex"],
             status: "online",
-            messages: []
         },
         "Denis": {
             icon: "",
             nickname: "Denis",
             mutedUserList: [],
             status: "offline",
-            messages: []
+        },
+        "Alex": {
+            icon: "",
+            nickname: "Alex",
+            mutedUserList: [],
+            status: "offline",
         }
     }
 
-    const userList = JSON.parse(localStorage.getItem("userList")) ?? {
-        "Ansar": {
-            icon: "/images/free-user-icon-3296-thumb.png",
-            nickname: "Ansar",
-            status: "online",
-        },
-        "Denis": {
-            icon: "/images/free-user-icon-3296-thumb.png",
-            nickname: "Denis",
-            status: "away"
-        },
-        "Alex": {
-            icon: "/images/free-user-icon-3296-thumb.png",
-            nickname: "Alex",
-            status: "offline"
-        }
-    }
+    // const userList = JSON.parse(localStorage.getItem("userList")) ?? {
+    //     "Ansar": {
+    //         icon: "/images/free-user-icon-3296-thumb.png",
+    //         nickname: "Ansar",
+    //         status: "online",
+    //     },
+    //     "Denis": {
+    //         icon: "/images/free-user-icon-3296-thumb.png",
+    //         nickname: "Denis",
+    //         status: "away"
+    //     },
+    //     "Alex": {
+    //         icon: "/images/free-user-icon-3296-thumb.png",
+    //         nickname: "Alex",
+    //         status: "offline"
+    //     }
+    // }
 
     const messageData = JSON.parse(localStorage.getItem("messageData")) ?? [
         {
@@ -65,7 +69,7 @@
 
     localStorage.setItem("knownUsers", JSON.stringify(knownUsers));
     localStorage.setItem("userData", JSON.stringify(userData));
-    localStorage.setItem("userList", JSON.stringify(userList));
+    // localStorage.setItem("userList", JSON.stringify(userList));
     localStorage.setItem("messageData", JSON.stringify(messageData));
 })();
 
@@ -154,8 +158,33 @@ export function getUserData() {
     return {status: "ok", data: userData[currentUser]};
 }
 
+// Цикл, userData
+// icon, nickname, status
+// исключить mutedUserList
 export function getUserListData() {
-    const userList = JSON.parse(localStorage.getItem("userList"));
+    // 1-ым циклом достать контретного пользователя (Ansar,Denis,Alex)
+    // 2-ым циклом достать поля пользователя (icon, nickname, mutedUserList, status)
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userList = {};
+    for (const userName in userData) {
+        // конкретный пользователь
+        const user = userData[userName];
+
+        // новый обьект, куда пойдут данные кроме mutedUserList
+        const newUserObject = {};
+
+        // поля обьекта (field) конкретного пользователя
+        for (const field in user) {
+            // исключить mutedUserList
+            if (field === "mutedUserList") {
+                continue;
+            }
+            // копируем остальные свойства
+            newUserObject[field] = user[field];
+        }
+        // сохранить очищенный обьект
+        userList[userName] = newUserObject;
+    }
     return {status: "ok", data: userList};
 }
 
