@@ -95,14 +95,14 @@ const userStore = useUserStore();
   right: -5px;
   border-left: 17px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 10px solid #744848;
+  border-bottom: 18px solid #744848;
 }
 
 .message-tail.left {
   left: -5px;
   border-left: 5px solid transparent;
   border-right: 17px solid transparent;
-  border-bottom: 10px solid #b98383;
+  border-bottom: 18px solid #b98383;
 }
 
 .sender-avatar {
