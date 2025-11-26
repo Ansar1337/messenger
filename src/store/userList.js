@@ -34,6 +34,7 @@ export const useUserListStore = defineStore(
                 }
 
                 const userListData = getUserListData().data;
+                console.log("userListData: ", userListData);
                 const currentLoggedUser = useUserStore();
                 console.log(currentLoggedUser.name);
 
@@ -67,7 +68,6 @@ export const useUserListStore = defineStore(
                         }
                         currentLoggedUser.setMutedList(newArray);
                     });
-
             },
 
             changeStatus(newStatus) {

@@ -53,7 +53,6 @@ function submit(e) {
   <!--  Logo and heading-->
   <div class="auth-container">
     <div class="auth-header">
-      <!--      <img src="/assets/logo.svg" alt="Логотип">-->
       <h1>Чат-проект</h1>
     </div>
   </div>

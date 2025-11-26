@@ -9,6 +9,7 @@ import {useUserListStore} from "@/store/userList.js";
 
 const message = ref("");
 const messageContainer = ref(null);
+const chatMessage = ref(null);
 const userStore = useUserStore();
 const messageStore = useMessageStore();
 const userListStore = useUserListStore();
@@ -55,12 +56,13 @@ function openEmojiPanel() {
         <div style="color: black"> {{ userStore.name }}</div>
         <!--            отоброжать аватарку у текущего пользователя-->
         <!--        отоброжать аватарку контректного пользователя, у Ansar своя аватарка, у Денис тоже своя-->
-        <ChatMessage
-            v-for="(msg, index) in messageStore.messages"
-            :key="index"
-            :sender-nickname="msg.senderNickname"
-            :sender-icon="(msg.senderNickname === userStore.name) ? (userStore.icon) : ''"
-            :message-content="msg.messageContent"
+        <ChatMessage ref="chatMessage"
+                     v-for="(msg, index) in messageStore.messages"
+                     :key="index"
+                     :sender-nickname="msg.senderNickname"
+                     :sender-icon="(msg.senderNickname === userStore.name) ?
+            (userStore.icon) : (userListStore.users.find(u => u.nickname === msg.senderNickname)?.icon)"
+                     :message-content="msg.messageContent"
         />
       </div>
     </div>

@@ -7,19 +7,19 @@
 
     const userData = JSON.parse(localStorage.getItem("userData")) ?? {
         "Ansar": {
-            icon: "",
+            icon: "/images/free-user-icon-3296-thumb.png",
             nickname: "Ansar",
             mutedUserList: ["John", "Alex"],
             status: "online",
         },
         "Denis": {
-            icon: "",
+            icon: "/images/free-user-icon-3296-thumb.png",
             nickname: "Denis",
             mutedUserList: [],
-            status: "offline",
+            status: "away",
         },
         "Alex": {
-            icon: "",
+            icon: "/images/free-user-icon-3296-thumb.png",
             nickname: "Alex",
             mutedUserList: [],
             status: "offline",

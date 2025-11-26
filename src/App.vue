@@ -6,12 +6,12 @@ import {useUserListStore} from "@/store/userList.js";
 import {useMessageStore} from "@/store/message.js";
 
 const userStore = useUserStore();
-const userList = useUserListStore();
+const userListStore = useUserListStore();
 const messageStore = useMessageStore();
 
 onMounted(() => {
   userStore.loadUserData();
-  userList.loadUserListData();
+  userListStore.loadUserListData();
   messageStore.loadMessageData();
 });
 // const tv = ref(0);
