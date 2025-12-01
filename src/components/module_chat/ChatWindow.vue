@@ -35,6 +35,9 @@ function sendMessage() {
         behavior: "smooth"
       });
     });
+    if (showEmojis.value) {
+      openEmojiPanel();
+    }
     message.value = "";
   }
 }
