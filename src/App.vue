@@ -4,6 +4,7 @@ import {onMounted, ref} from "vue";
 import {useUserStore} from "@/store/user.js";
 import {useUserListStore} from "@/store/userList.js";
 import {useMessageStore} from "@/store/message.js";
+import {getPing, authLogin, getUsersList} from "@/helpers/NetworkManager.js";
 
 const userStore = useUserStore();
 const userListStore = useUserListStore();
@@ -14,7 +15,11 @@ onMounted(() => {
   userListStore.loadUserListData();
   messageStore.loadMessageData();
 });
-// const tv = ref(0);
+
+// fetch API test requests
+getPing();
+authLogin("Ansar", "1234");
+getUsersList();
 </script>
 
 <template>
