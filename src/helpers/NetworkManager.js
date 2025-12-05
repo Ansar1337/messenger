@@ -1,46 +1,90 @@
 "use strict"
 
+let ws = null;
+
+function webSocketHandler({onOpen, onMessage, onClose, onError}) {
+    ws = ws ?? new WebSocket("ws://localhost:4000");
+
+    if (onOpen) {
+        ws.addEventListener("open", onOpen);
+    }
+
+    if (onMessage) {
+        ws.addEventListener("message", onMessage);
+    }
+
+    if (onClose) {
+        ws.addEventListener("close", onClose);
+    }
+
+    if (onError) {
+        ws.addEventListener("error", onError);
+    }
+}
+
 export function getPing() {
-    /*const response = await fetch('http://localhost:4000/ping');
-    return response.json();*/
     fetch('http://localhost:4000/ping')
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
 }
 
-export function authLogin(username, password) {
-    fetch('http://localhost:4000/api', {
+function sendRequest(actor, action, payload = {}) {
+    return fetch('http://localhost:4000/api', { //TODO: динамический адрес
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        credentials: 'include',  // cookies
-        body: JSON.stringify({
-            actor: 'auth',
-            action: 'login',
-            payload: {username, password},
-        }),
-    }).then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
+        credentials: 'include',
+        body: JSON.stringify({actor, action, payload}),
+    })
+        .then(response => response.json())
+        .catch(error => {
+            throw new Error(`Error: ${error}`)
+        });
+}
+
+// AUTH
+export function authRegister(username, password) { // IMPL
+    return sendRequest('auth', 'register', {username, password});
+}
+
+export function authLogin(username, password) { // IMPL
+    return sendRequest('auth', 'login', {username, password});
+}
+
+export function logout() {
+    return sendRequest('auth', 'logout');
+}
+
+export function logoutAll() {
+    return sendRequest('auth', 'logoutAll');
+}
+
+// USERS
+export function getUsersMe() { // IMPL
+    return sendRequest('users', 'me');
 }
 
 export function getUsersList() {
-    fetch('http://localhost:4000/api', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',  // cookies
-        body: JSON.stringify({
-            actor: 'users',
-            action: 'list',
-            payload: {},
-        }),
-    }).then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
+    return sendRequest('users', 'list');
+}
+
+export function updateProfile(imageB64, status) { // IMPL
+    sendRequest('users', 'updateProfile', {imageB64, status});
+}
+
+export function replaceMuted(mutedUsernames) {
+    return sendRequest('users', 'replaceMuted', {mutedUsernames});
+}
+
+// MESSAGES
+export function fetchMessages(since) {
+    return sendRequest('messages', 'fetch', {since});
+}
+
+export function sendMessages(content) {
+    return sendRequest('messages', 'send', {content});
 }
 
 /*
