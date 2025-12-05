@@ -15,11 +15,6 @@ onMounted(() => {
   userListStore.loadUserListData();
   messageStore.loadMessageData();
 });
-
-// fetch API test requests
-getPing();
-authLogin("Ansar", "1234");
-getUsersList();
 </script>
 
 <template>
