@@ -33,55 +33,43 @@ export const useUserListStore = defineStore(
                     return;
                 }
 
-                const userListData = getUserListData().data;
-                console.log("userListData: ", userListData);
-                const currentLoggedUser = useUserStore();
-                console.log(currentLoggedUser.name);
+                getUserListData().then(userListData => {
+                    console.log("userListData: ", userListData.payload);
+                    const currentLoggedUser = useUserStore();
+                    console.log(currentLoggedUser.name);
 
-                for (const key in userListData) {
-                    const user = userListData[key];
-                    const isMuted = currentLoggedUser.mutedUserList.includes(user.nickname);
+                    for (const user of userListData.payload.users) {
+                        //const user = userListData.payload.username;
+                        const isMuted = currentLoggedUser.mutedUserList.includes(user.username);
 
-                    if (currentLoggedUser.name === user.nickname) {
-                        continue;
-                    }
-
-                    const roomMate = new RoomMate(
-                        user.icon,
-                        user.nickname,
-                        user.status,
-                        isMuted
-                    );
-                    this.users.push(roomMate);
-                }
-                console.log("Loaded users:", this.users);
-
-                watch(
-                    // () => this.users.map(user => user.isMuted),
-                    this.users,
-                    () => {
-                        let newArray = [];
-                        for (let i = 0; i < this.users.length; i++) {
-                            if (this.users[i].isMuted === true) {
-                                newArray.push(this.users[i].nickname);
-                            }
+                        if (currentLoggedUser.name === user.username) {
+                            continue;
                         }
-                        currentLoggedUser.setMutedList(newArray);
-                    });
-            },
 
-            changeStatus(newStatus) {
-                this.status = newStatus;
-            },
+                        const roomMate = new RoomMate(
+                            user.iconUrl,
+                            user.username,
+                            user.status,
+                            isMuted
+                        );
+                        this.users.push(roomMate);
+                    }
+                    console.log("Loaded users:", this.users);
 
-            changeStatusMuted(newStatus) {
-                this.isMuted = newStatus
-            }
+                    watch(
+                        // () => this.users.map(user => user.isMuted),
+                        this.users,
+                        () => {
+                            let newArray = [];
+                            for (let i = 0; i < this.users.length; i++) {
+                                if (this.users[i].isMuted === true) {
+                                    newArray.push(this.users[i].nickname);
+                                }
+                            }
+                            currentLoggedUser.setMutedList(newArray);
+                        });
+                });
+            },
         },
-        getters: {
-            getStatus(state) {
-                return state.status;
-            }
-        }
     }
 );
