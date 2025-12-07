@@ -1,3 +1,5 @@
+import * as networkManager from './NetworkManager.js';
+
 (() => {
     const knownUsers = JSON.parse(localStorage.getItem("knownUsers")) ?? {
         //login:password
@@ -26,24 +28,6 @@
         }
     }
 
-    // const userList = JSON.parse(localStorage.getItem("userList")) ?? {
-    //     "Ansar": {
-    //         icon: "/images/free-user-icon-3296-thumb.png",
-    //         nickname: "Ansar",
-    //         status: "online",
-    //     },
-    //     "Denis": {
-    //         icon: "/images/free-user-icon-3296-thumb.png",
-    //         nickname: "Denis",
-    //         status: "away"
-    //     },
-    //     "Alex": {
-    //         icon: "/images/free-user-icon-3296-thumb.png",
-    //         nickname: "Alex",
-    //         status: "offline"
-    //     }
-    // }
-
     const messageData = JSON.parse(localStorage.getItem("messageData")) ?? [
         {
             senderNickname: "Ansar",
@@ -69,7 +53,6 @@
 
     localStorage.setItem("knownUsers", JSON.stringify(knownUsers));
     localStorage.setItem("userData", JSON.stringify(userData));
-    // localStorage.setItem("userList", JSON.stringify(userList));
     localStorage.setItem("messageData", JSON.stringify(messageData));
 })();
 
@@ -79,7 +62,11 @@
 
 // updateUserData(обьект класса User)
 // будет частный случай в которым мы сможем изменять поля присущеи User'у (icon,nickname,status,mutedUserList)
-export function updateUserData(userObject) {
+export function updateUserData(imageB64, status) {
+    networkManager.updateProfile(imageB64, status);
+}
+
+export function updateUserData_old(userObject) {
     const userData = JSON.parse(localStorage.getItem("userData"));
     const currentUser = localStorage.getItem("currentUser");
 
@@ -97,6 +84,10 @@ export function updateMessageData(messageObject) {
 }
 
 export function registerUser(login, password) {
+    return networkManager.authRegister(login, password);
+}
+
+export function registerUser_old(login, password) {
     const knownUsers = JSON.parse(localStorage.getItem("knownUsers"));
     const userData = JSON.parse(localStorage.getItem("userData"));
     if (knownUsers[login]) {
@@ -126,8 +117,12 @@ export function registerUser(login, password) {
     }
 }
 
-// При регистрации/логине пользователя мы его "помечаем" в localStorage;
 export function validateUser(login, password) {
+    return networkManager.authLogin(login, password);
+}
+
+// При регистрации/логине пользователя мы его "помечаем" в localStorage;
+export function validateUser_old(login, password) {
     const knownUsers = JSON.parse(localStorage.getItem("knownUsers"));
     if (!knownUsers[login]) {
         return {
@@ -149,6 +144,10 @@ export function validateUser(login, password) {
 }
 
 export function getUserData() {
+    return networkManager.getUsersMe();
+}
+
+export function getUserData_old() {
     const currentUser = localStorage.getItem("currentUser");
     const userData = JSON.parse(localStorage.getItem("userData"));
 
