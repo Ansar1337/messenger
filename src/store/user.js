@@ -3,6 +3,7 @@ import router from "@/router/router.js";
 import {getUserData, updateUserData} from "@/helpers/dataProvider.js";
 import {User} from "@/helpers/classes/User.js";
 import {watch} from "vue";
+import {authLogin} from "@/helpers/NetworkManager.js";
 
 export const useUserStore = defineStore(
     // Айдишник стора, должен быть уник.
@@ -16,30 +17,27 @@ export const useUserStore = defineStore(
             isLogged: false,
             mutedUserList: [],
             status: "offline",
-            messages: []
         }),
         // основная логика стора, могут изменять state
         actions: {
             loadUserData() {
-                const userData = getUserData().data;
-                const userStatus = getUserData().status;
-                const defaultImagePath = "/images/free-user-icon-3296-thumb.png";
-                if (userStatus === "ok") {
-                    this.icon = userData.icon === "" ? defaultImagePath : userData.icon;
-                    this.name = userData.nickname;
-                    this.status = userData.status;
-                    this.mutedUserList = userData.mutedUserList;
-                    this.messages = userData.messages;
-                    this.isLogged = true;
-                } else {
-                    this.isLogged = false;
-                }
-                watch(
-                    this,
-                    () => {
-                        this.updateUser();
+                getUserData().then(userData => {
+                    if (userData.status === "success") {
+                        this.icon = userData.iconUrl;
+                        this.name = userData.username;
+                        this.status = userData.status;
+                        this.mutedUserList = userData.mutedUsernames;
+                        this.isLogged = true;
+                    } else {
+                        this.isLogged = false;
                     }
-                )
+                    watch(
+                        this,
+                        () => {
+                            this.updateUser();
+                        }
+                    )
+                });
             },
             changeStatus(newStatus) {
                 this.isLogged = newStatus;
@@ -47,7 +45,7 @@ export const useUserStore = defineStore(
             changeName(newName) {
                 this.name = newName;
             },
-            logIn() {
+            startSession() {
                 this.loadUserData();
                 return router.replace({name: 'Chat'});
             },
@@ -61,8 +59,7 @@ export const useUserStore = defineStore(
                 this.updateUser();
             },
             updateUser() {
-                const user = new User(this.icon, this.name, this.status, this.mutedUserList, this.messages);
-                updateUserData(user);
+                updateUserData(this.icon, this.status);
             },
 
         },
