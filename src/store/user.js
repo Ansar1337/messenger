@@ -3,7 +3,7 @@ import router from "@/router/router.js";
 import {getUserData, updateUserData} from "@/helpers/dataProvider.js";
 import {User} from "@/helpers/classes/User.js";
 import {watch} from "vue";
-import {authLogin} from "@/helpers/NetworkManager.js";
+import * as networkManager from '@/helpers/NetworkManager.js';
 
 export const useUserStore = defineStore(
     // Айдишник стора, должен быть уник.
@@ -23,10 +23,10 @@ export const useUserStore = defineStore(
             loadUserData() {
                 getUserData().then(userData => {
                     if (userData.status === "success") {
-                        this.icon = userData.iconUrl;
-                        this.name = userData.username;
-                        this.status = userData.status;
-                        this.mutedUserList = userData.mutedUsernames;
+                        this.icon = userData.payload.iconUrl;
+                        this.name = userData.payload.username;
+                        this.status = userData.payload.status;
+                        this.mutedUserList = userData.payload.mutedUsernames;
                         this.isLogged = true;
                     } else {
                         this.isLogged = false;
@@ -42,21 +42,20 @@ export const useUserStore = defineStore(
             changeStatus(newStatus) {
                 this.isLogged = newStatus;
             },
-            changeName(newName) {
-                this.name = newName;
-            },
             startSession() {
                 this.loadUserData();
                 return router.replace({name: 'Chat'});
             },
             logOut() {
                 this.isLogged = false;
-                localStorage.removeItem("currentUser");
+                networkManager.logout();
+                //localStorage.removeItem("currentUser");
                 return router.replace({name: 'Registration'});
             },
             setMutedList(list) {
                 this.mutedUserList = list;
-                this.updateUser();
+                networkManager.replaceMuted(list);
+                //this.updateUser();
             },
             updateUser() {
                 updateUserData(this.icon, this.status);

@@ -157,10 +157,15 @@ export function getUserData_old() {
     return {status: "ok", data: userData[currentUser]};
 }
 
+export function getUserListData() {
+    return networkManager.getUsersList();
+}
+
+
 // Цикл, userData
 // icon, nickname, status
 // исключить mutedUserList
-export function getUserListData() {
+export function getUserListData_old() {
     // 1-ым циклом достать контретного пользователя (Ansar,Denis,Alex)
     // 2-ым циклом достать поля пользователя (icon, nickname, mutedUserList, status)
     const userData = JSON.parse(localStorage.getItem("userData"));
