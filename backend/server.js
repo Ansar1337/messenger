@@ -7,6 +7,7 @@ import {AuthActor} from "./actors/auth.js";
 import {UsersActor} from "./actors/users.js";
 import {MessagesActor} from "./actors/messages.js";
 
+
 const app = express();
 // Dev CORS for dashboard/local usage
 app.use((req, res, next) => {
@@ -19,6 +20,9 @@ app.use((req, res, next) => {
     }
     next();
 });
+// Increase the limit for JSON and URL-encoded payloads
+app.use(express.json({limit: '50mb'})); // Example: 50 megabytes
+app.use(express.urlencoded({extended: true, limit: '50mb'}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -27,7 +31,8 @@ const db = createDb();
 const stmtSession = db.prepare(`
     SELECT s.id, s.user_id
     FROM sessions s
-    WHERE s.id = ? AND s.expires_at > datetime('now')
+    WHERE s.id = ?
+      AND s.expires_at > datetime('now')
 `);
 
 const wss = new WebSocketServer({noServer: true});
