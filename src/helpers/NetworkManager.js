@@ -2,7 +2,7 @@
 
 let ws = null;
 
-function webSocketHandler({onOpen, onMessage, onClose, onError}) {
+export function addWebSocketHandlers({onOpen, onMessage, onClose, onError}) {
     ws = ws ?? new WebSocket("ws://localhost:4000");
 
     if (onOpen) {
@@ -53,7 +53,7 @@ export function authLogin(username, password) { // IMPL
     return sendRequest('auth', 'login', {username, password});
 }
 
-export function logout() {
+export function logout() { // IMPL
     return sendRequest('auth', 'logout');
 }
 
@@ -66,7 +66,7 @@ export function getUsersMe() { // IMPL
     return sendRequest('users', 'me');
 }
 
-export function getUsersList() {
+export function getUsersList() { // IMPL
     return sendRequest('users', 'list');
 }
 
@@ -74,7 +74,7 @@ export function updateProfile(imageB64, status) { // IMPL
     sendRequest('users', 'updateProfile', {imageB64, status});
 }
 
-export function replaceMuted(mutedUsernames) {
+export function replaceMuted(mutedUsernames) { // IMPL
     return sendRequest('users', 'replaceMuted', {mutedUsernames});
 }
 
@@ -83,7 +83,7 @@ export function fetchMessages(since) {
     return sendRequest('messages', 'fetch', {since});
 }
 
-export function sendMessages(content) {
+export function sendMessage(content) {
     return sendRequest('messages', 'send', {content});
 }
 
