@@ -76,8 +76,12 @@ export function updateUserData_old(userObject) {
     }
 }
 
+// export function sendMessage(messageText) {
+//     networkManager.sendMessage(messageText);
+// }
+
 // Структура сообщений - senderNickname, messageContent, messageDate
-export function updateMessageData(messageObject) {
+export function updateMessageData_old(messageObject) {
     let messageData = JSON.parse(localStorage.getItem("messageData"));
     messageData.push(messageObject);
     localStorage.setItem("messageData", JSON.stringify(messageData));
@@ -193,6 +197,10 @@ export function getUserListData_old() {
 }
 
 export function getMessageData() {
+    return networkManager.fetchMessages();
+}
+
+export function getMessageData_old() {
     const message = JSON.parse(localStorage.getItem("messageData"));
     return {status: "ok", data: message};
 }

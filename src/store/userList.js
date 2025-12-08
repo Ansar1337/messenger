@@ -34,40 +34,41 @@ export const useUserListStore = defineStore(
                 }
 
                 getUserListData().then(userListData => {
-                    console.log("userListData: ", userListData.payload);
-                    const currentLoggedUser = useUserStore();
-                    console.log(currentLoggedUser.name);
+                    if (userListData.status === "success") {
+                        console.log("userListData: ", userListData.payload);
+                        const currentLoggedUser = useUserStore();
+                        console.log(currentLoggedUser.name);
 
-                    for (const user of userListData.payload.users) {
-                        //const user = userListData.payload.username;
-                        const isMuted = currentLoggedUser.mutedUserList.includes(user.username);
+                        for (const user of userListData.payload.users) {
+                            const isMuted = currentLoggedUser.mutedUserList.includes(user.username);
 
-                        if (currentLoggedUser.name === user.username) {
-                            continue;
-                        }
-
-                        const roomMate = new RoomMate(
-                            user.iconUrl,
-                            user.username,
-                            user.status,
-                            isMuted
-                        );
-                        this.users.push(roomMate);
-                    }
-                    console.log("Loaded users:", this.users);
-
-                    watch(
-                        // () => this.users.map(user => user.isMuted),
-                        this.users,
-                        () => {
-                            let newArray = [];
-                            for (let i = 0; i < this.users.length; i++) {
-                                if (this.users[i].isMuted === true) {
-                                    newArray.push(this.users[i].nickname);
-                                }
+                            if (currentLoggedUser.name === user.username) {
+                                continue;
                             }
-                            currentLoggedUser.setMutedList(newArray);
-                        });
+
+                            const roomMate = new RoomMate(
+                                user.iconUrl,
+                                user.username,
+                                user.status,
+                                isMuted
+                            );
+                            this.users.push(roomMate);
+                        }
+                        console.log("Loaded users:", this.users);
+
+                        watch(
+                            // () => this.users.map(user => user.isMuted),
+                            this.users,
+                            () => {
+                                let newArray = [];
+                                for (let i = 0; i < this.users.length; i++) {
+                                    if (this.users[i].isMuted === true) {
+                                        newArray.push(this.users[i].nickname);
+                                    }
+                                }
+                                currentLoggedUser.setMutedList(newArray);
+                            });
+                    }
                 });
             },
         },
