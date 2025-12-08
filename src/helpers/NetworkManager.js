@@ -3,7 +3,9 @@
 let ws = null;
 
 export function addWebSocketHandlers({onOpen, onMessage, onClose, onError}) {
-    ws = ws ?? new WebSocket("ws://localhost:4000");
+    if (!ws || ws?.readyState !== WebSocket.OPEN) {
+        ws = ws ?? new WebSocket("ws://localhost:4000/ws");
+    }
 
     if (onOpen) {
         ws.addEventListener("open", onOpen);
