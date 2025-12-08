@@ -3,8 +3,6 @@ import {nextTick, onMounted, ref} from "vue";
 import ChatMessage from "@/components/module_chat/ChatMessage.vue";
 import {useUserStore} from "@/store/user.js";
 import {useMessageStore} from "@/store/message.js";
-import {updateMessageData} from "@/helpers/dataProvider.js";
-import {Message} from "@/helpers/classes/Message.js";
 import {useUserListStore} from "@/store/userList.js";
 import EmojiWindow from "@/components/module_chat/EmojiWindow.vue";
 
