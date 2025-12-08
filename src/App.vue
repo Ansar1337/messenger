@@ -1,25 +1,19 @@
-<script setup>
-import Chat from "@/components/module_chat/Chat.vue";
-import {onMounted, ref} from "vue";
+<script async setup>
 import {useUserStore} from "@/store/user.js";
 import {useUserListStore} from "@/store/userList.js";
 import {useMessageStore} from "@/store/message.js";
-import {getPing, authLogin, getUsersList} from "@/helpers/NetworkManager.js";
 
 const userStore = useUserStore();
 const userListStore = useUserListStore();
 const messageStore = useMessageStore();
 
-onMounted(() => {
-  userStore.loadUserData();
-  userListStore.loadUserListData();
-  messageStore.loadMessageData();
-});
+await userStore.loadUserData();
+await userListStore.loadUserListData();
+await messageStore.loadMessageData();
 </script>
 
 <template>
-  <router-view></router-view>
-
+  <router-view/>
 </template>
 
 <style scoped>
