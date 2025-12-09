@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 import ChatMessage from "@/components/module_chat/ChatMessage.vue";
 import {useUserStore} from "@/store/user.js";
 import {useMessageStore} from "@/store/message.js";
@@ -23,22 +23,30 @@ onMounted(() => {
   });
 });
 
-function sendMessage() {
+async function sendMessage() {
   if (message.value.trim() !== "") {
-    messageStore.addMessage(message.value);
+    await messageStore.addMessage(message.value);
     console.log("Отправлено:", message.value);
-    nextTick(() => {
-      messageContainer.value.scrollTo({
-        top: messageContainer.value.scrollHeight,
-        behavior: "smooth"
-      });
-    });
+
     if (showEmojis.value) {
       openEmojiPanel();
     }
     message.value = "";
   }
 }
+
+watch(
+    // Наблюдаем за новыми сообщения
+    () => messageStore.messages.length,
+    async () => {
+      // Ждем обновления DOM'a
+      await nextTick();
+      messageContainer.value.scrollTo({
+        top: messageContainer.value.scrollHeight,
+        behavior: "smooth"
+      });
+    }
+);
 
 function enterKeyHandler(e) {
   if (e.key === "Enter" && e.shiftKey === false && e.ctrlKey === false) {
