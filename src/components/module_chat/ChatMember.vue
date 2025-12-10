@@ -13,8 +13,12 @@ const isMuted = defineModel("isMuted");
       </div>
       <div class="nickname">{{ nickname }}</div>
       <div :class="`status-${status}`"></div>
-      <button type="button" class="btn-lock btn-unlock" @click="isMuted=!isMuted">
-        {{ isMuted ? 'Разблокировать' : 'Заблокировать' }}
+      <button
+          type="button"
+          class="btn-lock btn-unlock"
+          @click="isMuted=!isMuted"
+          :title="isMuted ? 'Unmute' : 'Mute'">
+        {{ isMuted ? '🔇' : '🔈' }}
       </button>
     </div>
   </div>
