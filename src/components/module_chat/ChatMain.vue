@@ -46,9 +46,9 @@ const router = useRouter();
       <div class="user-list-container">
         <div class="user-list-heading">Список контактов</div>
         <div class="chat-members">
-          {{ userList }}
+<!--          {{ userList }}-->
           <div>Инфа о пользователе</div>
-          {{userStore}}
+<!--          {{userStore}}-->
           <!--          {{ messageStore }}-->
           <ChatMember v-for="user in userList.users"
                       :key="user.nickname"
@@ -70,7 +70,7 @@ const router = useRouter();
 
 .container {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 200px 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
   "header header"

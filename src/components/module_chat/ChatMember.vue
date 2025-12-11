@@ -35,7 +35,7 @@ const isMuted = defineModel("isMuted");
 
 .chat-member-info {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
 }
 
@@ -66,6 +66,6 @@ const isMuted = defineModel("isMuted");
 }
 
 .nickname {
-  width: 40px;
+  width: 70px;
 }
 </style>
