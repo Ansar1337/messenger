@@ -150,7 +150,7 @@ export class UsersActor {
         if (!this.wss) return;
         const user = this.stmtGetUserById.get(userId);
         if (!user) return;
-        const payload = JSON.stringify({event: "users:update", payload: {user}});
+        const payload = JSON.stringify({event: "users:update", payload: user});
         this.wss.clients.forEach(client => {
             if (client.readyState === 1) {
                 client.send(payload);
