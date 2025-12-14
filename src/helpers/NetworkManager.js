@@ -3,25 +3,31 @@
 let ws = null;
 
 export function addWebSocketHandlers({onOpen, onMessage, onClose, onError}) {
-    if (!ws || ws?.readyState !== WebSocket.OPEN) {
-        ws = ws ?? new WebSocket("ws://localhost:4000/ws");
-    }
+    return new Promise((resolve, reject) => {
+        if (!ws || ws?.readyState !== WebSocket.OPEN) {
+            ws = new WebSocket("ws://localhost:4000/ws");
+            ws.onopen = () => resolve();
+            ws.onerror = (e) => reject(e);
+        } else{
+            queueMicrotask(()=> resolve());
+        }
 
-    if (onOpen) {
-        ws.addEventListener("open", onOpen);
-    }
+        if (onOpen) {
+            ws.addEventListener("open", onOpen);
+        }
 
-    if (onMessage) {
-        ws.addEventListener("message", onMessage);
-    }
+        if (onMessage) {
+            ws.addEventListener("message", onMessage);
+        }
 
-    if (onClose) {
-        ws.addEventListener("close", onClose);
-    }
+        if (onClose) {
+            ws.addEventListener("close", onClose);
+        }
 
-    if (onError) {
-        ws.addEventListener("error", onError);
-    }
+        if (onError) {
+            ws.addEventListener("error", onError);
+        }
+    });
 }
 
 export function getPing() {

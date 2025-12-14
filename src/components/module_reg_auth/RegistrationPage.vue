@@ -34,7 +34,7 @@ function submit(e) {
   if (!isRegister.value) {
     validateUser(form.username, form.password).then(async validUser => {
       if (validUser.status === "error") {
-        error.value = validUser.data;
+        error.value = validUser.payload.message;
       } else {
         await userStore.startSession();
       }
@@ -42,7 +42,7 @@ function submit(e) {
   } else {
     registerUser(form.username, form.password).then(async registeredUser => {
       if (registeredUser.status === "error") {
-        error.value = registeredUser.data;
+        error.value = registeredUser.payload.message;
       } else {
         await userStore.startSession();
       }

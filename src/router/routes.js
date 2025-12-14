@@ -28,7 +28,12 @@ const routes = [
         component: () => import("@/components/module_reg_auth/RegistrationPage.vue"),
         beforeEnter: async () => {
             const userStore = useUserStore();
+            const userListStore = useUserListStore();
+            const messageStore = useMessageStore();
+
             await userStore.loadUserData();
+            await userListStore.resetUserListData();
+            await messageStore.resetMessageData();
             if (userStore.isLogged === true) {
                 return '/';
             }
