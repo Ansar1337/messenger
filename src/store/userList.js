@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {getUserListData} from "@/helpers/dataProvider.js";
 import {RoomMate} from "@/helpers/classes/RoomMate.js";
 import {useUserStore} from "@/store/user.js";
-import {watch} from "vue";
+import {ref, watch} from "vue";
 import {addWebSocketHandlers} from "@/helpers/NetworkManager.js";
 import {Message} from "@/helpers/classes/Message.js";
 
@@ -31,14 +31,61 @@ export const useUserListStore = defineStore(
             Если есть попадания, то не пушим его в массив*/
 
             loadUserListData() {
-                if (this.users.length > 0) {
-                    return;
+                const currentLoggedUser = useUserStore();
+                if (this.users.length === 0) {
+                    addWebSocketHandlers({
+                        onMessage: (e) => {
+                            //{ event: "users:update", payload: { user  } }
+                            const wsMessage = JSON.parse(e.data);
+                            if (wsMessage.event === "users:update") {
+
+                                for (let i = 0; i < this.users.length; i++) {
+                                    // приходит контректный пользователь у которого произошел update
+                                    // через цикл прохожу через всех существуеший пользователей и ищу нужного
+                                    // у нужного пользователя меняю либо иконку либо статус
+                                    if (this.users[i].nickname === wsMessage.payload.username) {
+                                        this.users[i].icon = wsMessage.payload.iconUrl;
+                                        this.users[i].status = wsMessage.payload.status;
+                                        console.log(this.users);
+                                        return;
+                                    }
+                                }
+                                // если пользователя нет, мы его добавляем
+                                const currentUser = useUserStore();
+
+                                // если входящий пользователя является нами, то мы его не добавляем
+                                if (currentUser.name !== wsMessage.payload.username) {
+                                    const user = new RoomMate(
+                                        wsMessage.payload.iconUrl,
+                                        wsMessage.payload.username,
+                                        wsMessage.payload.status,
+                                        false
+                                    );
+                                    this.users.push(user);
+                                }
+                                console.log(this.users);
+                            }
+                        }
+                    });
+
+                    watch(
+                        // () => this.users.map(user => user.isMuted),
+                        this.users,
+                        () => {
+                            let newArray = [];
+                            for (let i = 0; i < this.users.length; i++) {
+                                if (this.users[i].isMuted === true) {
+                                    newArray.push(this.users[i].nickname);
+                                }
+                            }
+                            currentLoggedUser.setMutedList(newArray);
+                        });
                 }
 
                 getUserListData().then(userListData => {
                     if (userListData.status === "success") {
+                        this.users.length = 0;
                         console.log("userListData: ", userListData.payload);
-                        const currentLoggedUser = useUserStore();
                         console.log(currentLoggedUser.name);
 
                         for (const user of userListData.payload.users) {
@@ -57,54 +104,6 @@ export const useUserListStore = defineStore(
                             this.users.push(roomMate);
                         }
                         console.log("Loaded users:", this.users);
-
-                        addWebSocketHandlers({
-                            onMessage: (e) => {
-                                //{ event: "users:update", payload: { user  } }
-                                const wsMessage = JSON.parse(e.data);
-                                if (wsMessage.event === "users:update") {
-
-                                    for (let i = 0; i < this.users.length; i++) {
-                                        // приходит контректный пользователь у которого произошел update
-                                        // через цикл прохожу через всех существуеший пользователей и ищу нужного
-                                        // у нужного пользователя меняю либо иконку либо статус
-                                        if (this.users[i].nickname === wsMessage.payload.username) {
-                                            this.users[i].icon = wsMessage.payload.iconUrl;
-                                            this.users[i].status = wsMessage.payload.status;
-                                            console.log(this.users);
-                                            return;
-                                        }
-                                    }
-                                    // если пользователя нет, мы его добавляем
-                                    const currentUser = useUserStore();
-
-                                    // если входящий пользователя является нами, то мы его не добавляем
-                                    if (currentUser.name !== wsMessage.payload.username) {
-                                        const user = new RoomMate(
-                                            wsMessage.payload.iconUrl,
-                                            wsMessage.payload.username,
-                                            wsMessage.payload.status,
-                                            false
-                                        );
-                                        this.users.push(user);
-                                    }
-                                    console.log(this.users);
-                                }
-                            }
-                        });
-
-                        watch(
-                            // () => this.users.map(user => user.isMuted),
-                            this.users,
-                            () => {
-                                let newArray = [];
-                                for (let i = 0; i < this.users.length; i++) {
-                                    if (this.users[i].isMuted === true) {
-                                        newArray.push(this.users[i].nickname);
-                                    }
-                                }
-                                currentLoggedUser.setMutedList(newArray);
-                            });
                     }
                 });
             },

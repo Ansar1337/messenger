@@ -1,4 +1,7 @@
 import {useUserStore} from "@/store/user.js";
+import {useUserListStore} from "@/store/userList.js";
+import {useMessageStore} from "@/store/message.js";
+
 
 const routes = [
     {
@@ -7,9 +10,15 @@ const routes = [
         component: () => import('@/components/module_chat/Chat.vue'),
         beforeEnter: async () => {
             const userStore = useUserStore();
+            const userListStore = useUserListStore();
+            const messageStore = useMessageStore();
+
             await userStore.loadUserData();
+            await userListStore.loadUserListData();
+            await messageStore.loadMessageData();
+
             if (userStore.isLogged === false) {
-                return '/';
+                return '/registration';
             }
         }
     },

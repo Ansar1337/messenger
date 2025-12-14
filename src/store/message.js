@@ -4,6 +4,7 @@ import {defineStore} from "pinia";
 import {Message} from "@/helpers/classes/Message.js";
 import {getMessageData} from "@/helpers/dataProvider.js";
 import {sendMessage, addWebSocketHandlers} from "@/helpers/NetworkManager.js";
+import {ref} from "vue";
 
 export const useMessageStore = defineStore(
     'messageStore',
@@ -13,21 +14,7 @@ export const useMessageStore = defineStore(
         }),
         actions: {
             loadMessageData() {
-                getMessageData().then(messageData => {
-                    if (messageData.status === 'success') {
-
-                        for (const message of messageData.payload.messages) {
-
-                            const messageClass = new Message(
-                                message.sender,
-                                message.content,
-                                message.createdAt
-                            );
-                            this.messages.push(messageClass);
-                        }
-
-                        console.log("messages: ", this.messages);
-                    }
+                if (this.messages.length === 0) {
                     addWebSocketHandlers({
                         onMessage: (e) => {
                             //{ event: "message:new", payload: { id, sender, senderIcon, content, createdAt } }
@@ -42,6 +29,23 @@ export const useMessageStore = defineStore(
                             }
                         }
                     });
+                }
+
+                getMessageData().then(messageData => {
+                    if (messageData.status === 'success') {
+                        this.messages.length = 0;
+                        for (const message of messageData.payload.messages) {
+
+                            const messageClass = new Message(
+                                message.sender,
+                                message.content,
+                                message.createdAt
+                            );
+                            this.messages.push(messageClass);
+                        }
+
+                        console.log("messages: ", this.messages);
+                    }
                 });
             },
             // 1. addMessage передаем данные пинии

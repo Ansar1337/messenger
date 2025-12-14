@@ -28,7 +28,7 @@ export const useUserStore = defineStore(
                 if (userData.status === "success") {
                     this.icon = userData.payload.iconUrl;
                     this.name = userData.payload.username;
-                    // this.status = userData.payload.status;
+                    this.status = userData.payload.status;
                     this.mutedUserList = userData.payload.mutedUsernames;
                     this.isLogged = true;
                 } else {
@@ -46,11 +46,12 @@ export const useUserStore = defineStore(
             },
             async startSession() {
                 await this.loadUserData();
-                return router.replace({name: 'Chat'});
+                await router.replace({name: 'Chat'});
             },
             logOut() {
                 this.isLogged = false;
                 networkManager.logout();
+                this.status = "offline";
                 return router.replace({name: 'Registration'});
             },
             setMutedList(list) {
