@@ -1,11 +1,20 @@
 <script setup>
 
 import {useUserStore} from "@/store/user.js";
+import {ref, watch} from "vue";
 
 const now = new Date();
 const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
+const props = defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
 const userStore = useUserStore();
+
+const getDefaultMuteState = () => userStore.mutedUserList.includes(props.senderNickname);
+
+let isMuted = ref(getDefaultMuteState());
+
+watch(userStore, () => {
+  isMuted.value = getDefaultMuteState();
+});
 
 </script>
 
@@ -27,8 +36,14 @@ const userStore = useUserStore();
         <div class="sender-data-container">
           <div class="nickname">{{ senderNickname }}</div>
         </div>
+        <div class="message-content muted"
+             v-if="isMuted" @click="isMuted = false">Сообщение скрыто (клик для отображения)
+        </div>
 
-        <div class="message-content">{{ messageContent }}</div>
+        <div class="message-content"
+             @click="isMuted = getDefaultMuteState()"
+             v-else>{{ messageContent }}
+        </div>
 
         <div class="message-meta">
           <div class="message-date">{{ messageDate }}</div>
@@ -79,7 +94,7 @@ const userStore = useUserStore();
   padding: 8px 40px 6px 10px;
   border-radius: 12px;
   background: #744848;
- /* align-self: flex-start;*/
+  /* align-self: flex-start;*/
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -126,6 +141,11 @@ const userStore = useUserStore();
 .message-content {
   font-size: 0.9rem;
   margin-bottom: 4px;
+}
+
+.message-content.muted {
+  cursor: pointer;
+  font-style: italic;
 }
 
 .message-date,

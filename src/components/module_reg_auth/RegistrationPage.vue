@@ -32,19 +32,19 @@ function submit(e) {
   e.preventDefault();
   error.value = "";
   if (!isRegister.value) {
-    validateUser(form.username, form.password).then(validUser => {
+    validateUser(form.username, form.password).then(async validUser => {
       if (validUser.status === "error") {
         error.value = validUser.data;
       } else {
-        userStore.startSession();
+        await userStore.startSession();
       }
     });
   } else {
-    registerUser(form.username, form.password).then(registeredUser => {
+    registerUser(form.username, form.password).then(async registeredUser => {
       if (registeredUser.status === "error") {
         error.value = registeredUser.data;
       } else {
-        userStore.startSession();
+        await userStore.startSession();
       }
     });
   }

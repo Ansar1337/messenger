@@ -1,15 +1,5 @@
 <script async setup>
-import {useUserStore} from "@/store/user.js";
-import {useUserListStore} from "@/store/userList.js";
-import {useMessageStore} from "@/store/message.js";
 
-const userStore = useUserStore();
-const userListStore = useUserListStore();
-const messageStore = useMessageStore();
-
-await userStore.loadUserData();
-await userListStore.loadUserListData();
-await messageStore.loadMessageData();
 </script>
 
 <template>
