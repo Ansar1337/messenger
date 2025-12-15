@@ -5,6 +5,7 @@ import {useUserStore} from "@/store/user.js";
 import {useMessageStore} from "@/store/message.js";
 import {useUserListStore} from "@/store/userList.js";
 import EmojiWindow from "@/components/module_chat/EmojiWindow.vue";
+import {useLocaleStore} from "@/store/locale.js";
 
 const message = ref("");
 const messageContainer = ref(null);
@@ -12,6 +13,7 @@ const chatMessage = ref(null);
 const userStore = useUserStore();
 const messageStore = useMessageStore();
 const userListStore = useUserListStore();
+const localeStore = useLocaleStore();
 
 // создать рефку для смайликов, чтобы удалять их из верстки и добавлять их обратно в верстку
 const showEmojis = ref(false);
@@ -83,7 +85,7 @@ function openEmojiPanel() {
         2. при клике на смайлик вставляем его содержимое в поле ввода сообщений-->
     <div class="chat-window-utils">
       <div class="input-field">
-        <textarea placeholder="Write a message..." v-model="message" @keydown="enterKeyHandler"></textarea>
+        <textarea :placeholder="localeStore.locale.placeholder" v-model="message" @keydown="enterKeyHandler"></textarea>
       </div>
       <EmojiWindow v-if="showEmojis" v-model:message="message"></EmojiWindow>
       <button class="emoji-btn" @click="openEmojiPanel">😀</button>

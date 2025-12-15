@@ -7,19 +7,16 @@ import {ref} from "vue";
 import {useUserListStore} from "@/store/userList.js";
 import ChatUserAvatar from "@/components/module_chat/ChatUserAvatar.vue";
 import {useMessageStore} from "@/store/message.js";
+import {useLocaleStore} from "@/store/locale.js";
 
 const userStore = useUserStore();
 const userList = useUserListStore();
 const messageStore = useMessageStore();
+const localeStore = useLocaleStore();
 const array = ref(["message1", "message2", "message3"]);
 
 const router = useRouter();
-//TODO фикс чата
-/*
-1. плавает скролл
-2. фикс контейнера по ширине
-3. выравнивания сообщений
- */
+
 </script>
 
 <template>
@@ -38,17 +35,21 @@ const router = useRouter();
           </select>
         </div>
       </div>
+      <select @change="e => localeStore.setLocale(e.target.value)">
+        <option>en</option>
+        <option>ru</option>
+      </select>
       <div class="user-btns">
-        <button type="button" @click="userStore.logOut()" class="button-exit">Exit</button>
+        <button type="button" @click="userStore.logOut()" class="button-exit">{{localeStore.locale.exit_label}}</button>
       </div>
     </header>
     <div class="user-list">
       <div class="user-list-container">
-        <div class="user-list-heading">Список контактов</div>
+        <div class="user-list-heading">{{ localeStore.locale.user_contacts }}</div>
         <div class="chat-members">
-<!--          {{ userList }}-->
-          <div>Инфа о пользователе</div>
-<!--          {{userStore}}-->
+          <!--          {{ userList }}-->
+          <div>{{ localeStore.locale.user_info }}</div>
+          <!--          {{userStore}}-->
           <!--          {{ messageStore }}-->
           <ChatMember v-for="user in userList.users"
                       :key="user.nickname"

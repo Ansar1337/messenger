@@ -2,11 +2,14 @@
 
 import {useUserStore} from "@/store/user.js";
 import {ref, watch} from "vue";
+import {localisation} from "@/locals/localisation.js";
+import {useLocaleStore} from "@/store/locale.js";
 
 const now = new Date();
 const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 const props = defineProps(["senderIcon", "senderNickname", "messageContent", "messageDate"]);
 const userStore = useUserStore();
+const localeStore = useLocaleStore();
 
 const getDefaultMuteState = () => userStore.mutedUserList.includes(props.senderNickname);
 
@@ -37,7 +40,7 @@ watch(userStore, () => {
           <div class="nickname">{{ senderNickname }}</div>
         </div>
         <div class="message-content muted"
-             v-if="isMuted" @click="isMuted = false">Сообщение скрыто (клик для отображения)
+             v-if="isMuted" @click="isMuted = false">{{ localeStore.locale.hidden_message }}
         </div>
 
         <div class="message-content"
