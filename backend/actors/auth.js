@@ -50,7 +50,7 @@ export class AuthActor {
         const {username, password} = payload;
         const existing = this.stmtGetUserByUsername.get(username);
         if (existing) {
-            return res.status(400).json({status: "error", payload: {message: "user already exists"}});
+            return res.status(400).json({status: "error", payload: {message: "user_already_exists"}});
         }
         const salt = crypto.randomBytes(16).toString("hex");
         const hash = this.#hashPassword(salt, password);
@@ -73,11 +73,11 @@ export class AuthActor {
         const {username, password} = payload;
         const user = this.stmtGetUserByUsername.get(username);
         if (!user) {
-            return res.status(401).json({status: "error", payload: {message: "user not found"}});
+            return res.status(401).json({status: "error", payload: {message: "user_not_found"}});
         }
         const hash = this.#hashPassword(user.password_salt, password);
         if (user.password_hash !== hash) {
-            return res.status(401).json({status: "error", payload: {message: "invalid credentials"}});
+            return res.status(401).json({status: "error", payload: {message: "invalid_credentials"}});
         }
         const sid = this.createSession(user.id);
         res.cookie("sid", sid, {
@@ -91,24 +91,24 @@ export class AuthActor {
 
     async logout({session, res}) {
         if (!session) {
-            return res.json({status: "success", payload: {message: "already logged out"}});
+            return res.json({status: "success", payload: {message: "already_logged_out"}});
         }
         this.stmtDeleteSession.run(session.id);
         res.clearCookie("sid", {httpOnly: true, sameSite: "lax", path: "/"});
         // Закрываем все WS с этой сессией
         this.closeWebSocketsBySession(session.id);
-        return res.json({status: "success", payload: {message: "logged out"}});
+        return res.json({status: "success", payload: {message: "logged_out"}});
     }
 
     async logoutAll({session, res}) {
         if (!session) {
-            return res.json({status: "success", payload: {message: "already logged out"}});
+            return res.json({status: "success", payload: {message: "already_logged_out"}});
         }
         this.stmtDeleteUserSessions.run(session.user_id);
         res.clearCookie("sid", {httpOnly: true, sameSite: "lax", path: "/"});
         // Закрываем все WS этого пользователя
         this.closeWebSocketsByUser(session.user_id);
-        return res.json({status: "success", payload: {message: "logged out everywhere"}});
+        return res.json({status: "success", payload: {message: "logged_out_everywhere"}});
     }
 
     closeWebSocketsBySession(sessionId) {

@@ -36,7 +36,7 @@ export class MessagesActor {
         }
         const s = this.stmtSession.get(session.id);
         if (!s) {
-            res.status(401).json({status: "error", payload: {message: "session expired or invalid"}});
+            res.status(401).json({status: "error", payload: {message: "session_expired_or_invalid"}});
             return null;
         }
         return s;
@@ -64,7 +64,7 @@ export class MessagesActor {
         if (!s) return res;
         const {content} = payload || {};
         if (!content || typeof content !== "string" || !content.trim()) {
-            return res.json({status: "error", payload: {message: "empty content"}});
+            return res.json({status: "error", payload: {message: "empty_content"}});
         }
         const createdAt = new Date().toISOString();
         const info = this.stmtInsertMessage.run(s.user_id, content, createdAt);
