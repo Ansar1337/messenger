@@ -5,7 +5,7 @@ let ws = null;
 export function addWebSocketHandlers({onOpen, onMessage, onClose, onError}) {
     return new Promise((resolve, reject) => {
         if (!ws || ws?.readyState !== WebSocket.OPEN) {
-            ws = new WebSocket("ws://localhost:4000/ws");
+            ws = new WebSocket(((import.meta.env.VITE_SSL_CONNECTION === "true")?("wss://"):("ws://")) + import.meta.env.VITE_API_URL+ "/ws");
             ws.onopen = () => resolve();
             ws.onerror = (e) => reject(e);
         } else{
@@ -31,14 +31,14 @@ export function addWebSocketHandlers({onOpen, onMessage, onClose, onError}) {
 }
 
 export function getPing() {
-    fetch('http://localhost:4000/ping')
+    fetch(((import.meta.env.VITE_SSL_CONNECTION === "true")?("https://"):("http://"))+import.meta.env.VITE_API_URL+'/ping')
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
 }
 
 function sendRequest(actor, action, payload = {}) {
-    return fetch('http://localhost:4000/api', { //TODO: динамический адрес
+    return fetch(((import.meta.env.VITE_SSL_CONNECTION === "true")?("https://"):("http://"))+import.meta.env.VITE_API_URL+'/api', { //TODO: динамический адрес
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
