@@ -2,20 +2,14 @@
 import ChatWindow from "@/components/module_chat/ChatWindow.vue";
 import ChatMember from "@/components/module_chat/ChatMember.vue";
 import {useUserStore} from '@/store/user';
-import {useRouter} from "vue-router";
-import {ref} from "vue";
 import {useUserListStore} from "@/store/userList.js";
 import ChatUserAvatar from "@/components/module_chat/ChatUserAvatar.vue";
-import {useMessageStore} from "@/store/message.js";
 import {useLocaleStore} from "@/store/locale.js";
+import Locale from "@/components/locale/Locale.vue";
 
 const userStore = useUserStore();
 const userList = useUserListStore();
-const messageStore = useMessageStore();
 const localeStore = useLocaleStore();
-const array = ref(["message1", "message2", "message3"]);
-
-const router = useRouter();
 
 </script>
 
@@ -23,7 +17,6 @@ const router = useRouter();
   <div class="container">
     <header>
       <div class="user-icon">
-        <!--        <img src="../../../public/images/free-user-icon-3296-thumb.png" alt="user-icon">-->
         <ChatUserAvatar></ChatUserAvatar>
         <div class="user-nickname">{{ userStore.name }}</div>
         <div class="user-status">
@@ -35,12 +28,11 @@ const router = useRouter();
           </select>
         </div>
       </div>
-      <select @change="e => localeStore.setLocale(e.target.value)">
-        <option>en</option>
-        <option>ru</option>
-      </select>
+
       <div class="user-btns">
-        <button type="button" @click="userStore.logOut()" class="button-exit">{{localeStore.locale.exit_label}}</button>
+        <Locale/>
+        <button type="button" @click="userStore.logOut()" class="button-exit">{{ localeStore.locale.exit_label }}
+        </button>
       </div>
     </header>
     <div class="user-list">
@@ -98,8 +90,12 @@ const router = useRouter();
 
 .user-btns {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  gap: 25px;
+}
+
+.button-exit {
+  min-width: 55px;
 }
 
 .user-list {

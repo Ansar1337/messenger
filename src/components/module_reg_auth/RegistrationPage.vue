@@ -1,14 +1,13 @@
 <script setup>
-import {ref, reactive} from "vue";
+import {ref, reactive, computed} from "vue";
 import WrappedInput from "@/components/module_reg_auth/WrappedInput.vue";
-import {useRouter} from "vue-router";
-import Chat from "@/components/module_chat/Chat.vue";
 import {useUserStore} from "@/store/user.js";
 import {validateUser, registerUser} from "@/helpers/dataProvider.js";
-
-const router = useRouter();
+import {useLocaleStore} from "@/store/locale.js";
+import Locale from "@/components/locale/Locale.vue";
 
 const userStore = useUserStore();
+const localeStore = useLocaleStore();
 
 const form = reactive({
   username: "",
@@ -34,7 +33,7 @@ function submit(e) {
   if (!isRegister.value) {
     validateUser(form.username, form.password).then(async validUser => {
       if (validUser.status === "error") {
-        error.value = validUser.payload.message;
+        error.value = computed(() => localeStore.locale[validUser.payload.message]);
       } else {
         await userStore.startSession();
       }
@@ -42,7 +41,7 @@ function submit(e) {
   } else {
     registerUser(form.username, form.password).then(async registeredUser => {
       if (registeredUser.status === "error") {
-        error.value = registeredUser.payload.message;
+        error.value = computed(() => localeStore.locale[registeredUser.payload.message]);
       } else {
         await userStore.startSession();
       }
@@ -52,37 +51,37 @@ function submit(e) {
 </script>
 
 <template>
-  <!--  Logo and heading-->
+  <!--Logo and heading-->
   <div class="auth-container">
     <div class="auth-header">
       <h1>Чат-проект</h1>
+      <Locale/>
     </div>
   </div>
-
-  <!--  Form-->
+  <!--Form-->
   <form @submit="submit" class="auth-form">
     <WrappedInput
-        field-caption="Username"
+        :field-caption=localeStore.locale.placeholder_login
         v-model="form.username"
         type="text"
-        placeholder="Логин"
+        :placeholder=localeStore.locale.placeholder_login
         name="login"
         required="true"
     />
     <WrappedInput
-        field-caption="Password"
+        :field-caption=localeStore.locale.placeholder_pass
         v-model="form.password"
         type="password"
-        placeholder="Пароль"
+        :placeholder=localeStore.locale.placeholder_pass
         name="passwd"
         required="true"
     />
     <WrappedInput
-        field-caption="Repeat Password"
+        :field-caption=localeStore.locale.repeat_pass
         v-if="isRegister"
         v-model="form.confirmPassword"
         type="password"
-        placeholder="Подтвердите пароль"
+        :placeholder=localeStore.locale.repeat_pass
         name="passwd2"
         required="true"
     />
@@ -92,10 +91,10 @@ function submit(e) {
 
     <!--    Buttons-->
     <button type="submit" class="auth-button">
-      {{ isRegister ? "Создать" : "Войти" }}
+      {{ isRegister ? localeStore.locale.label_create : localeStore.locale.label_login }}
     </button>
     <button type="button" @click="toggleMode" class="auth-button">
-      {{ isRegister ? "У меня уже есть аккаунт" : "Создать новый аккаунт" }}
+      {{ isRegister ? localeStore.locale.label_acc : localeStore.locale.label_create_acc }}
     </button>
   </form>
 
