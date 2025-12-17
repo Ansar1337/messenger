@@ -42,10 +42,12 @@ export const useUserStore = defineStore(
             isLogged.value = newStatus;
         }
 
-        async function startSession() {
+        async function startSession(openChatWindow = true) {
             await networkManager.addWebSocketHandlers({});
             await loadUserData();
-            await router.replace({name: 'Chat'});
+            if (openChatWindow) {
+                await router.replace({name: 'Chat'});
+            }
         }
 
         function logOut() {

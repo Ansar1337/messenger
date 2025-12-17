@@ -13,10 +13,9 @@ const routes = [
             const userListStore = useUserListStore();
             const messageStore = useMessageStore();
 
-            await userStore.loadUserData();
+            await userStore.startSession(false);
             await userListStore.loadUserListData();
             await messageStore.loadMessageData();
-
             if (userStore.isLogged === false) {
                 return '/registration';
             }
@@ -31,7 +30,7 @@ const routes = [
             const userListStore = useUserListStore();
             const messageStore = useMessageStore();
 
-            await userStore.loadUserData();
+            await userStore.startSession(false);
             await userListStore.resetUserListData();
             await messageStore.resetMessageData();
             if (userStore.isLogged === true) {
