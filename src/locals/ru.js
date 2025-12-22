@@ -14,5 +14,6 @@ export const ruLocal = {
     "label_login": "Войти",
     "label_create_acc": "Создать новый аккаунт",
     "label_acc": "У меня уже есть аккаунт",
-    "repeat_pass": "Подтвердите пароль"
+    "repeat_pass": "Подтвердите пароль",
+    "chat_label": "Чат Рум"
 }

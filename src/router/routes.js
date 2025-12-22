@@ -13,9 +13,13 @@ const routes = [
             const userListStore = useUserListStore();
             const messageStore = useMessageStore();
 
-            await userStore.startSession(false);
-            await userListStore.loadUserListData();
-            await messageStore.loadMessageData();
+            try {
+                await userStore.startSession(false);
+                await userListStore.loadUserListData();
+                await messageStore.loadMessageData();
+            } catch (e) {
+                console.log(JSON.stringify(e));
+            }
             if (userStore.isLogged === false) {
                 return '/registration';
             }
@@ -30,7 +34,7 @@ const routes = [
             const userListStore = useUserListStore();
             const messageStore = useMessageStore();
 
-            await userStore.startSession(false);
+            await userStore.loadUserData();
             await userListStore.resetUserListData();
             await messageStore.resetMessageData();
             if (userStore.isLogged === true) {

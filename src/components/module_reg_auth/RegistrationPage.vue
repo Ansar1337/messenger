@@ -54,7 +54,7 @@ function submit(e) {
   <!--Logo and heading-->
   <div class="auth-container">
     <div class="auth-header">
-      <h1>Чат-проект</h1>
+      <h1>{{localeStore.locale.chat_label}}</h1>
       <Locale/>
     </div>
   </div>

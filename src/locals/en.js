@@ -14,5 +14,6 @@ export const enLocal = {
     "label_login": "Login",
     "label_create_acc": "Create new account",
     "label_acc": "I already have an account",
-    "repeat_pass": "Repeat password"
+    "repeat_pass": "Repeat password",
+    "chat_label": "Chat Room"
 }
